@@ -37,11 +37,11 @@ Socket = function(onMudOutput, blit, gmcp) {
         flushQ();
     });
     websock.onerror=function (e) {
-        onMudOutput("\n\n\nWebSocket Error: " + e.reason);
+        onMudOutput("\n\n\nWebSocket Error: " + e.reason + "\n");
         blit();
     }
     websock.onclose=function(e){
-        onMudOutput("\n\n\nWebSocket Close: " + e.code + " " + e.reason);
+        onMudOutput("\n\n\nWebSocket Close: " + e.code + " " + e.reason + "\n");
         blit();
     }
 
