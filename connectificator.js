@@ -47,7 +47,9 @@ function start() {
     var socket = Socket(onMudOutput, ui.blit, gmcp);
     var pathificator = Pathificator(send, gmcp, ui.focusOnInput);
     addGmcpHandlers();
-    document.getElementById('pInput').onclick = function() { document.getElementById('pInput').select();};
-    document.getElementById('pInput').oninput = function() { pathificator.findRoom('pInput', 'pList');};
+    var pInput = document.getElementById('pInput');
+    var stuffList = document.getElementById('stuffList');
+    pInput.onclick = function() { pInput.select(); };
+    pInput.oninput = function() { pathificator.findRoom(pInput, stuffList);};
     changelog();
 }

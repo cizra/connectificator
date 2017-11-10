@@ -24,12 +24,10 @@ var Pathificator = function(send, gmcp, focusOnInput) {
         xhttp.send();
     }
 
-    exports.findRoom = function(inputName, tableName) {
-        var input = document.getElementById(inputName);
+    exports.findRoom = function(input, roomView) {
         getRooms(input.value, function(rooms) {
-            var table = document.getElementById(tableName);
-            table.innerHTML = "";
-            buildHtmlTable(input, table, rooms);
+            roomView.innerHTML = "";
+            buildRoomList(input, roomView, rooms);
         });
     }
 
@@ -40,30 +38,30 @@ var Pathificator = function(send, gmcp, focusOnInput) {
             if (this.readyState == 4 && this.status == 200) {
                 focusOnInput();
                 send(this.responseText);
-                input.value = (new Date().getTime() - start_time) + "ms";
+                input.value = "Found in " + (new Date().getTime() - start_time) + "ms";
             }
         };
         xhttp.open("GET", url + "pathFind/" + gmcp.rnum() + "/" + targetRoom, true);
         xhttp.send();
     }
 
-    var _tr_ = document.createElement('tr'),
-    _td_ = document.createElement('td');
+    var _li_ = document.createElement('li');
+    var _div_ = document.createElement('div');
 
-    function buildHtmlTable(input, table, rooms) {
+    function buildRoomList(input, out, rooms) {
         for (var id in rooms) {
-            var tr = _tr_.cloneNode(false);
-            tr.onclick = function(id) { return function() {
-                table.innerHTML = "";
+            var row = _li_.cloneNode(false);
+            row.onclick = function(id) { return function() {
+                out.innerHTML = "";
                 pathfind(id, input);
             }}(id)
-            var tdId = _td_.cloneNode(false);
-            tdId.appendChild(document.createTextNode(id));
-            var tdName = _td_.cloneNode(false);
-            tdName.appendChild(document.createTextNode(rooms[id]));
-            tr.appendChild(tdId);
-            tr.appendChild(tdName);
-            table.appendChild(tr);
+            var cellId = _div_.cloneNode(false);
+            cellId.appendChild(document.createTextNode(id)); /* escapes any possible HTML */
+            var cellName = _div_.cloneNode(false);
+            cellName.appendChild(document.createTextNode(rooms[id]));
+            row.appendChild(cellId);
+            row.appendChild(cellName);
+            out.appendChild(row);
         }
     }
     return exports;

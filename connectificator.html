@@ -11,16 +11,17 @@
         <script src="pathificator.js"></script>
     </head>
     <body onload="start()">
-        <div id='pathificator'>
-            <div id='lag'>Lag</div>
-            <input id='pInput' type='text' value='Pathificator' />
-            <table id="pList"></table>
-        </div>
         <div id='client'>
+            <div id='menu'>
+                <label id="gear" for="gearCheckbox">⚙️</label>
+                <input id="gearCheckbox" type="checkbox" />
+                <ul id="menuitems">
+                    <li><input id='pInput' type='text' value='Pathificator'/></li>
+                    <li><a>Triggers</a></li>
+                </ul>
+                <ul id="stuffList"></ul>
+            </div>
             <div id='output'>Connecting to SneezyMUD...</div>
-        </div>
-
-        <div id='input'>
             <input type='text' id='inputfield' />
         </div>
 </html>

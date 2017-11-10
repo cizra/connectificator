@@ -13,7 +13,7 @@ var Ui = function(send) {
         outputf.innerHTML = outS.join('');
         // Only scroll if the user isn't reading backlog
         if (inputf === document.activeElement)
-            outputf.scrollTop = 1E20;
+            document.getElementById('output').scrollTop = 1E20;
     };
 
     function capOutput() {
