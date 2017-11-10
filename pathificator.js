@@ -38,10 +38,9 @@ var Pathificator = function(send, gmcp, focusOnInput) {
         var start_time = new Date().getTime();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                document.getElementById('lag').innerHTML = (new Date().getTime() - start_time) + "ms";
                 focusOnInput();
                 send(this.responseText);
-                input.innerHTML = "";
+                input.value = (new Date().getTime() - start_time) + "ms";
             }
         };
         xhttp.open("GET", url + "pathFind/" + gmcp.rnum() + "/" + targetRoom, true);
@@ -55,7 +54,6 @@ var Pathificator = function(send, gmcp, focusOnInput) {
         for (var id in rooms) {
             var tr = _tr_.cloneNode(false);
             tr.onclick = function(id) { return function() {
-                input.value = rooms[id];
                 table.innerHTML = "";
                 pathfind(id, input);
             }}(id)
