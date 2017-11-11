@@ -60,6 +60,25 @@ var Ui = function(send) {
         inputf.focus();
     }
 
+    // Takes an array of rows, where a row consists of items: [text, (optional callback)]
+    exports.toMenu = function(out, array) {
+        var _li_ = document.createElement('li');
+        var _div_ = document.createElement('div');
+
+        for (var i in array) {
+            var rowIn = array[i];
+            var rowOut = _li_.cloneNode(false);
+            for (var item in array[i]) {
+                var cellOut = _div_.cloneNode(false);
+                cellOut.appendChild(document.createTextNode(array[i][item][0])); /* escapes any possible HTML */
+                if (array[i][item].length == 2)
+                    cellOut.onclick = array[i][item][1];
+                rowOut.appendChild(cellOut);
+            }
+            out.appendChild(rowOut);
+        }
+    }
+
     inputf.select();
     return exports;
 };

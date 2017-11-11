@@ -1,5 +1,6 @@
-var Pathificator = function(send, gmcp, focusOnInput) {
+var Pathificator = function(send, gmcp, focusOnInput, toMenu) {
     var exports = {}
+    var favorites = JSON.parse(window.localStorage.getItem('favoriteRooms') || "[]");
 
     var url = function() {
         var parser = document.createElement('a');
@@ -45,24 +46,20 @@ var Pathificator = function(send, gmcp, focusOnInput) {
         xhttp.send();
     }
 
-    var _li_ = document.createElement('li');
-    var _div_ = document.createElement('div');
-
+    // rooms is a dict of roomID to roomname
     function buildRoomList(input, out, rooms) {
+        var items = [];
         for (var id in rooms) {
-            var row = _li_.cloneNode(false);
-            row.onclick = function(id) { return function() {
-                out.innerHTML = "";
-                pathfind(id, input);
-            }}(id)
-            var cellId = _div_.cloneNode(false);
-            cellId.appendChild(document.createTextNode(id)); /* escapes any possible HTML */
-            var cellName = _div_.cloneNode(false);
-            cellName.appendChild(document.createTextNode(rooms[id]));
-            row.appendChild(cellId);
-            row.appendChild(cellName);
-            out.appendChild(row);
+            var item = [];
+            var onclick = function(roomid) { return function() {
+                    out.innerHTML = "";
+                    pathfind(roomid, input);
+                }}(id);
+            item.push([id, onclick]);
+            item.push([rooms[id], onclick]);
+            items.push(item);
         }
+        toMenu(out, items);
     }
     return exports;
 }

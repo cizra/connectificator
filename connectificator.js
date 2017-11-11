@@ -45,7 +45,7 @@ function start() {
         triggers.run(str)
     }
     var socket = Socket(onMudOutput, ui.blit, gmcp);
-    var pathificator = Pathificator(send, gmcp, ui.focusOnInput);
+    var pathificator = Pathificator(send, gmcp, ui.focusOnInput, ui.toMenu);
     addGmcpHandlers();
     var pInput = document.getElementById('pInput');
     var stuffList = document.getElementById('stuffList');
