@@ -84,28 +84,30 @@ ul#menuitems > li {
     right: 20px;
     width: 15em;
     display: table;
+    border-spacing: 5px;
+    background-color: #f2f2f2;
+    padding-left: 0px;
 }
-
-#menu #stuffList.stuffListItem {
-    display: table-row;
-}
-
-#menu #stuffList.stuffListItem.div {
-    display: table-column;
-}
-
 
 #stuffList li {
     list-style-type:none;
     border: 1px solid #ddd;
     padding: 8px;
+    background-color: #f2f2f2;
+    color: #101010;
+    margin: 0px;
+    display: table-row;
+}
+
+#stuffList li div {
+    display: table-cell;
 }
 
 #stuffList li:nth-child(even) {
-    background: #505050;
+    background: #c0c0c0;
 }
 
 #stuffList li:hover {
-    border: 5px solid #111111;
+    background: #d2ffd2;
     padding: 4px;
 }

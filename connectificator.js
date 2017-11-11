@@ -9,10 +9,11 @@ function addGmcpHandlers() {
 function changelog() {
     var changes = [
         "Basic working client",
-        "Keypad navigation! Use your numeric keypad, with NumLock \"on\", to walk the world. Plus and Minus go down and up. 5 issues the \"look\" command."
+        "Keypad navigation! Use your numeric keypad, with NumLock \"on\", to walk the world. Plus and Minus go down and up. 5 issues the \"look\" command.",
+        "Pathificator now remembers favorite rooms and displays them on the top of the list."
     ]
     var version = changes.length
-    var oldVersion = window.localStorage.getItem('version') || 0
+    var oldVersion = parseInt(window.localStorage.getItem('version')) || 0
     console.assert(version >= oldVersion)
     var changelog = "Changelog:\n"
     for (i = oldVersion; i < version; ++i)
