@@ -94,11 +94,18 @@ ul#menuitems > li {
     display: table-column;
 }
 
-#stuffList:nth-child(even){background-color: #f2f2f2;}
-#stuffList:nth-child(odd){background-color: #222222;}
 
 #stuffList li {
     list-style-type:none;
     border: 1px solid #ddd;
     padding: 8px;
+}
+
+#stuffList li:nth-child(even) {
+    background: #505050;
+}
+
+#stuffList li:hover {
+    border: 5px solid #111111;
+    padding: 4px;
 }
