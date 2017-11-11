@@ -10,7 +10,8 @@ function changelog() {
     var changes = [
         "Basic working client",
         "Keypad navigation! Use your numeric keypad, with NumLock \"on\", to walk the world. Plus and Minus go down and up. 5 issues the \"look\" command.",
-        "Pathificator now remembers favorite rooms and displays them on the top of the list."
+        "Pathificator now remembers favorite rooms and displays them on the top of the list.",
+        "Start typing anywhere and the input field gets focus."
     ]
     var version = changes.length
     var oldVersion = parseInt(window.localStorage.getItem('version')) || 0
@@ -52,5 +53,10 @@ function start() {
     var stuffList = document.getElementById('stuffList');
     pInput.onclick = function() { pInput.select(); };
     pInput.oninput = function() { pathificator.findRoom(pInput, stuffList);};
+    window.onkeypress = function() {
+        if (document.activeElement.tagName != "INPUT")
+            ui.focusOnInput();
+        return true;
+    };
     changelog();
 }
