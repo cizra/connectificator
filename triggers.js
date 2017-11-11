@@ -1,4 +1,4 @@
-Triggers = function(send) {
+Triggers = function(send, toMenu, trgList) {
     var exports = {};
 
     // ordered list of pairs (regex, action)
@@ -41,6 +41,29 @@ Triggers = function(send) {
 
     exports.get = function() {
         return triggers
+    }
+
+    function trgEdit(id) {
+        document.createElement('div')
+        if (id === undefined) {
+            console.log("add new trigger")
+        } else {
+            console.log("Change " + triggers[id])
+        }
+    }
+
+    exports.draw = function() {
+        var drawMe = [];
+        drawMe.push([["New", trgEdit]]);
+        for (i in triggers) {
+            var j = i;
+            // function pushOneTrg(j) {
+                var trg = triggers[j];
+                drawMe.push([[trg[0], ()=>trgEdit(j)], [trg[1], ()=>trgEdit(j)]])
+            // };
+            // pushOneTrg(i)
+        }
+        toMenu(trgList, drawMe)
     }
 
     return exports

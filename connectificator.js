@@ -41,7 +41,8 @@ function start() {
     }
     var gmcp = Gmcp();
     ui = Ui(send);
-    /* var */ triggers = Triggers(send);
+    var stuffList = document.getElementById('stuffList');
+    /* var */ triggers = Triggers(send, ui.toMenu, stuffList);
     function onMudOutput(str) {
         ui.output(str)
         triggers.run(str)
@@ -50,9 +51,9 @@ function start() {
     var pathificator = Pathificator(send, gmcp, ui.focusOnInput, ui.toMenu);
     addGmcpHandlers();
     var pInput = document.getElementById('pInput');
-    var stuffList = document.getElementById('stuffList');
     pInput.onclick = function() { pInput.select(); };
     pInput.oninput = function() { pathificator.findRoom(pInput, stuffList);};
+    document.getElementById('triggersBtn').onclick = function() { triggers.draw() }
     window.onkeypress = function() {
         if (document.activeElement.tagName != "INPUT")
             ui.focusOnInput();
