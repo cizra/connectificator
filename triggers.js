@@ -28,7 +28,7 @@ Triggers = function(send, ui) {
 
         for (i in triggers) {
             var str = unHtml(mudstr);
-            console.debug("Trigger match", JSON.stringify([str, triggers[i][0].toString()]))
+            console.debug("Trigger match", JSON.stringify(str), triggers[i][0]);
             if (str.match(triggers[i][0])) {
                 send(triggers[i][1]) // TODO triggers executing code
                 return
