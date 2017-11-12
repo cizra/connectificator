@@ -24,7 +24,10 @@ function changelog() {
     window.localStorage.setItem('version', version)
 }
 
+// expose to console
 var triggers = null;
+var gmcp = null;
+var pathificator = null;
 
 function start() {
     var ui = null;
@@ -39,20 +42,16 @@ function start() {
         });
         ui.blit();
     }
-    var gmcp = Gmcp();
+    gmcp = Gmcp();
     ui = Ui(send);
-    var stuffList = document.getElementById('stuffList');
-    /* var */ triggers = Triggers(send, ui.toMenu, stuffList);
+    /* var */ triggers = Triggers(send, ui);
     function onMudOutput(str) {
         ui.output(str)
         triggers.run(str)
     }
     var socket = Socket(onMudOutput, ui.blit, gmcp);
-    var pathificator = Pathificator(send, gmcp, ui.focusOnInput, ui.toMenu);
+    pathificator = Pathificator(send, gmcp, ui);
     addGmcpHandlers();
-    var pInput = document.getElementById('pInput');
-    pInput.onclick = function() { pInput.select(); };
-    pInput.oninput = function() { pathificator.findRoom(pInput, stuffList);};
     document.getElementById('triggersBtn').onclick = function() { triggers.draw() }
     window.onkeypress = function() {
         if (document.activeElement.tagName != "INPUT")

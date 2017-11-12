@@ -82,7 +82,7 @@ ul#menuitems > li {
     position: fixed;
     top: 55px;
     right: 20px;
-    width: 15em;
+    width: minmax(15em, 30%);
     display: table;
     border-spacing: 5px;
     background-color: #f2f2f2;

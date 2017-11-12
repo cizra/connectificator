@@ -3,6 +3,7 @@ var Ui = function(send) {
     var outS = []; // line-split view of screen, bounded by vertical size
     var inputf = document.getElementById('inputfield');
     var outputf = document.getElementById('output');
+    var stuffList = document.getElementById('stuffList');
     var ansi_up = new AnsiUp;
     winHeight = parseInt(document.defaultView.getComputedStyle(document.body)['height'].replace("px", ""));
     lineHeight = parseInt(document.defaultView.getComputedStyle(outputf, null)['line-height'].replace("px", ""));
@@ -61,7 +62,7 @@ var Ui = function(send) {
     }
 
     // Takes an array of rows, where a row consists of items: [text, (optional callback)]
-    exports.toMenu = function(out, array) {
+    exports.toMenu = function(array) {
         var _li_ = document.createElement('li');
         var _div_ = document.createElement('div');
 
@@ -75,9 +76,11 @@ var Ui = function(send) {
                     cellOut.onclick = array[i][item][1];
                 rowOut.appendChild(cellOut);
             }
-            out.appendChild(rowOut);
+            stuffList.appendChild(rowOut);
         }
     }
+
+    exports.clearStuff = () => stuffList.innerHTML = "";
 
     inputf.select();
     return exports;

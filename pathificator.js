@@ -1,6 +1,37 @@
-var Pathificator = function(send, gmcp, focusOnInput, toMenu) {
+var Pathificator = function(send, gmcp, ui) {
     var exports = {}
+    var input = document.getElementById('pInput')
     var favorites = JSON.parse(window.localStorage.getItem('favoriteRooms') || "{}"); // a map of roomId -> usage count
+    var map = JSON.parse(window.localStorage.getItem('map') || "{}");
+    if (!('rooms' in map))
+        map['rooms'] = {}
+
+    function save() {
+        window.localStorage.setItem('map', JSON.stringify(map))
+    }
+    gmcp.handle("room.info", function(ri) {
+        var id = ri.num;
+        var copy = {};
+        if (!(id in map['rooms'])) {
+            for (var key in ri) {
+                if (key != 'num')
+                    copy[key] = ri[key];
+            }
+            map['rooms'][id] = copy;
+            save()
+        }
+    });
+
+    input.onclick = function() {
+        var idToName = {};
+        for (var id in favorites) {
+            if (id in map['rooms'])
+                idToName[id] = map['rooms'][id]['name']
+        }
+        buildRoomList(idToName)
+        input.select()
+    };
+    input.oninput = function() { exports.findRoom() };
 
     var url = function() {
         var parser = document.createElement('a');
@@ -25,21 +56,21 @@ var Pathificator = function(send, gmcp, focusOnInput, toMenu) {
         xhttp.send();
     }
 
-    exports.findRoom = function(input, roomView) {
+    exports.findRoom = function() {
         if (input.value.length >= 3) {
             getRooms(input.value, function(rooms) {
-                roomView.innerHTML = "";
-                buildRoomList(input, roomView, rooms);
+                ui.clearStuff()
+                buildRoomList(rooms);
             });
         }
     }
 
-    function pathfind(targetRoom, input) {
+    function pathfind(targetRoom) {
         var xhttp = new XMLHttpRequest();
         var start_time = new Date().getTime();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                focusOnInput();
+                ui.focusOnInput();
                 send(this.responseText);
                 input.value = "Found in " + (new Date().getTime() - start_time) + "ms";
             }
@@ -56,7 +87,7 @@ var Pathificator = function(send, gmcp, focusOnInput, toMenu) {
     }
 
     // rooms is a dict of roomID to roomname
-    function buildRoomList(input, out, rooms) {
+    function buildRoomList(rooms) {
         // preprocess rooms into an array sorted by count of visits
         var roomsA = [];
         for (var id in rooms)
@@ -78,15 +109,16 @@ var Pathificator = function(send, gmcp, focusOnInput, toMenu) {
             var visitCount = "" + (room[2] == 0 ? "" : room[2]);
             var item = [];
             var onclickPathfind = function(roomid) { return function() {
-                    out.innerHTML = "";
-                    pathfind(roomid, input);
+                    ui.clearStuff();
+                    pathfind(roomid);
                 }}(roomId);
             item.push([roomId, onclickPathfind]);
             item.push([roomName, onclickPathfind]);
             item.push([visitCount, onclickPathfind]);
             items.push(item);
         })
-        toMenu(out, items);
+        ui.toMenu(items);
     }
+
     return exports;
 }

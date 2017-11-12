@@ -123,7 +123,7 @@ var Gmcp = function() {
 
     function runOnGmcps(cmd, obj) {
         if (cmd in handlers)
-            handlers[cmd]();
+            handlers[cmd](obj);
     }
 
     exports.parse = function(input) {

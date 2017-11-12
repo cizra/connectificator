@@ -6,14 +6,14 @@ Socket = function(onMudOutput, blit, gmcp) {
     // eats strings or Uint8Arrays (GMCP)
     function send(stuff) {
         if (stuff.length > 0) {
-            console.debug("sock> ", stuff)
+            // console.debug("sock> ", stuff)
             var b = new Blob([stuff], {type: 'application/octet-stream'});
             websock.send(b);
         }
     }
 
     mudReader.addEventListener("loadend", function() {
-        console.debug("sock< ", mudReader.result)
+        // console.debug("sock< ", mudReader.result)
         var parseResult = gmcp.parse(mudReader.result);
         var mudstr = parseResult[0];
         send(new Uint8Array(parseResult[1])); // outgoing GMCP commands
