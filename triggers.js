@@ -21,9 +21,15 @@ Triggers = function(send, ui) {
     }
 
     exports.run = function(mudstr) {
+        function unHtml(str) {
+            var parser = new DOMParser().parseFromString(mudstr, "text/html");
+            return parser.documentElement.textContent;
+        }
+
         for (i in triggers) {
-            console.debug("Trigger match", JSON.stringify([mudstr, triggers[i][0].toString()]))
-            if (mudstr.match(triggers[i][0])) {
+            var str = unHtml(mudstr);
+            console.debug("Trigger match", JSON.stringify([str, triggers[i][0].toString()]))
+            if (str.match(triggers[i][0])) {
                 send(triggers[i][1]) // TODO triggers executing code
                 return
             }
