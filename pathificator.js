@@ -36,8 +36,7 @@ var Pathificator = function(send, gmcp, ui) {
     var url = function() {
         var parser = document.createElement('a');
         parser.href = window.location.href;
-        // replace port with 8000, if it's unset
-        var port = ":8000";
+        var port = "";
         if (parser.port)
             port = ":" + parser.port;
         console.log(parser.protocol + "//" + parser.hostname + port + "/");
