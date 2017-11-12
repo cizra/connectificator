@@ -71,10 +71,18 @@ Triggers = function(send, ui) {
         cancelBtn.value = 'Cancel'
         cancelBtn.onclick = ui.dismissPopup
         saveBtn.onclick = function() {
-            if (id === undefined)
-                triggers.push([RegExp(match.value), action.value]);
-            else
-                triggers[id] = [RegExp(match.value), action.value];
+            try {
+                if (id === undefined)
+                    triggers.push([RegExp(match.value), action.value]);
+                else
+                    triggers[id] = [RegExp(match.value), action.value];
+            } catch (e) {
+                if (e instanceof SyntaxError) {
+                    alert(e);
+                    return;
+                }
+                throw e;
+            }
             save();
             ui.dismissPopup();
         }
