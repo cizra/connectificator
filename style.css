@@ -85,7 +85,7 @@ ul#menuitems > li {
     width: minmax(15em, 30%);
     display: table;
     border-spacing: 5px;
-    background-color: #f2f2f2;
+    background-color: #d2d2d2;
     padding-left: 0px;
 }
 
@@ -93,7 +93,7 @@ ul#menuitems > li {
     list-style-type:none;
     border: 1px solid #ddd;
     padding: 8px;
-    background-color: #f2f2f2;
+    background-color: #d2d2d2;
     color: #101010;
     margin: 0px;
     display: table-row;
@@ -110,4 +110,14 @@ ul#menuitems > li {
 #stuffList li:hover {
     background: #d2ffd2;
     padding: 4px;
+}
+
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f2f2f2;
+    padding: 1em;
+    display: none;
 }

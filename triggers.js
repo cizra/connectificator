@@ -50,6 +50,7 @@ Triggers = function(send, ui) {
         } else {
             console.log("Change ", triggers[id])
         }
+        ui.popup("Edit trigger", [])
     }
 
     exports.draw = function() {

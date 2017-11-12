@@ -61,6 +61,20 @@ var Ui = function(send) {
         inputf.focus();
     }
 
+    exports.popup = function(title, elems) {
+        var h1 = document.createElement('h1');
+        h1.appendChild(document.createTextNode(title));
+        var p = document.getElementById('popup');
+        p.innerHTML = "";
+        p.appendChild(h1);
+        elems.forEach(e => p.appendChild(e))
+        p.style.display = 'block'
+    }
+
+    exports.dismissPopup = function() {
+        document.getElementById('popup').style.display = 'none'
+    }
+
     // Takes an array of rows, where a row consists of items: [text, (optional callback)]
     exports.toMenu = function(array) {
         var _li_ = document.createElement('li');
