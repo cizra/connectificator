@@ -39,7 +39,7 @@ var Pathificator = function(send, gmcp, ui) {
         var port = "";
         if (parser.port)
             port = ":" + parser.port;
-        console.log(parser.protocol + "//" + parser.hostname + port + "/");
+        // console.log(parser.protocol + "//" + parser.hostname + port + "/");
         return parser.protocol + "//" + parser.hostname + port + "/";
     }()
 

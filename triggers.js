@@ -10,22 +10,19 @@ Triggers = function(send, ui) {
     var triggers = function() {
         var out = [];
         var tmptrg = JSON.parse(window.localStorage.getItem('triggers') || "[]");
-        console.log("Raw saved triggers:", tmptrg)
         tmptrg.forEach(t => out.push([deserialize(t[0]), t[1]]))
-        console.log("Fixed triggers:", out)
         return out
     }()
 
     function save() {
         var out = [];
         triggers.forEach(t => out.push([t[0].toString(), t[1]]));
-        console.log("Serializing", out);
         window.localStorage.setItem('triggers', JSON.stringify(out))
     }
 
     exports.run = function(mudstr) {
         for (i in triggers) {
-            console.log("Trigger match", JSON.stringify([mudstr, triggers[i][0].toString()]))
+            console.debug("Trigger match", JSON.stringify([mudstr, triggers[i][0].toString()]))
             if (mudstr.match(triggers[i][0])) {
                 send(triggers[i][1]) // TODO triggers executing code
                 return
@@ -50,7 +47,6 @@ Triggers = function(send, ui) {
                 var s = r.toString();
                 return s.substr(1, s.length - 2);
             }
-            console.log(triggers[id][0]);
             match.value = toS(triggers[id][0]);
             action.value = triggers[id][1];
         }
@@ -69,12 +65,10 @@ Triggers = function(send, ui) {
         cancelBtn.value = 'Cancel'
         cancelBtn.onclick = ui.dismissPopup
         saveBtn.onclick = function() {
-            console.log("Before:", triggers)
             if (id === undefined)
                 triggers.push([RegExp(match.value), action.value]);
             else
                 triggers[id] = [RegExp(match.value), action.value];
-            console.log("after:", triggers)
             save();
             ui.dismissPopup();
         }

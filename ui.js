@@ -1,4 +1,4 @@
-var Ui = function(send) {
+var Ui = function(options, send) {
     var exports = {};
     var outS = []; // line-split view of screen, bounded by vertical size
     var inputf = document.getElementById('inputfield');
@@ -54,7 +54,10 @@ var Ui = function(send) {
     inputf.onkeydown = function(e) {
         if (e.key == "Enter") {
             send(inputf.value);
-            inputf.select();
+            if ('clearCommand' in options && options['clearCommand'])
+                inputf.value = '';
+            else
+                inputf.select();
             return false;
         } else if (e.keyCode in exports.macros) {
             exports.macros[e.keyCode]();

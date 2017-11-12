@@ -8,6 +8,7 @@ function addGmcpHandlers() {
 
 function changelog() {
     var changes = [
+        "Added option to clear command line.",
         "Triggers are here!",
         "Pathificator now displays favorite rooms",
         "Start typing anywhere and the input field gets focus.",
@@ -26,6 +27,25 @@ function changelog() {
     window.localStorage.setItem('version', version)
 }
 
+function loadOptions() {
+    options = JSON.parse(window.localStorage.getItem('options') || "{}");
+    function save() {
+        window.localStorage.setItem('options', JSON.stringify(options));
+    }
+
+    var clearCommandBtn = document.getElementById('clearCommand');
+    clearCommandBtn.value = 'clearCommand' in options ? (options['clearCommand'] ? 'On' : 'Off') : 'Off';
+    clearCommandBtn.onclick = function() {
+        if ('clearCommand' in options)
+            options['clearCommand'] = !options['clearCommand'];
+        else
+            options['clearCommand'] = true; // the default being Off
+        save();
+        loadOptions();
+    }
+    return options;
+}
+
 // expose to console
 var triggers = null;
 var gmcp = null;
@@ -33,6 +53,7 @@ var pathificator = null;
 
 function start() {
     var ui = null;
+    var options = loadOptions();
     function send(text) {
         if (text[0] == ';')
             text = text.slice(1);
@@ -45,7 +66,7 @@ function start() {
         ui.blit();
     }
     gmcp = Gmcp();
-    ui = Ui(send);
+    ui = Ui(options, send);
     /* var */ triggers = Triggers(send, ui);
     function onMudOutput(str) {
         ui.output(str, triggers.run)
@@ -59,5 +80,6 @@ function start() {
             ui.focusOnInput();
         return true;
     };
+
     changelog();
 }
