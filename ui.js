@@ -85,6 +85,7 @@ var Ui = function(options, send) {
 
     // Takes an array of rows, where a row consists of items: [text, (optional callback)]
     exports.toMenu = function(array) {
+        exports.clearStuff();
         var _li_ = document.createElement('li');
         var _div_ = document.createElement('div');
 
