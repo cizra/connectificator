@@ -8,6 +8,7 @@ function addGmcpHandlers() {
 
 function changelog() {
     var changes = [
+        "Triggers are here!",
         "Pathificator now displays favorite rooms",
         "Start typing anywhere and the input field gets focus.",
         "Pathificator now remembers favorite rooms and displays them on the top of the list.",
@@ -47,8 +48,7 @@ function start() {
     ui = Ui(send);
     /* var */ triggers = Triggers(send, ui);
     function onMudOutput(str) {
-        ui.output(str)
-        triggers.run(str)
+        ui.output(str, triggers.run)
     }
     var socket = Socket(onMudOutput, ui.blit, gmcp);
     pathificator = Pathificator(send, gmcp, ui);

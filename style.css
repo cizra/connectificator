@@ -121,3 +121,7 @@ ul#menuitems > li {
     padding: 1em;
     display: none;
 }
+
+#popup input {
+    margin: 1em;
+    display: block;

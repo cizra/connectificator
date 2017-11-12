@@ -21,13 +21,18 @@ var Ui = function(send) {
         outS = outS.slice(Math.max(0, outS.length - maxlen));
     };
 
-    exports.output = function(mudstr) {
+    exports.output = function(mudstr, runTriggers) {
         mudstr = mudstr.replace(/\r/g, "");
         mudstr = ansi_up.ansi_to_html(mudstr);
         var split = mudstr.split(/\n/);
-        outS.push(split.shift());
+        var line = split.shift();
+        outS.push(line);
+        if (runTriggers)
+            runTriggers(line);
         split.forEach(function(line){
             outS.push('\n' + line);
+            if (runTriggers)
+                runTriggers(line);
         });
         capOutput();
     };
