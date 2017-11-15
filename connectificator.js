@@ -8,6 +8,7 @@ function addGmcpHandlers() {
 
 function changelog() {
     var changes = [
+        "Triggers are now parametric. For example,\n^(.+) says, \"(.+)\"$\n'%2 %2 yourself, you %1\nNicodemus the old fisherman says, \"hi\"\nYou say, \"hi hi yourself, you Nicodemus the old fisherman\"",
         "Added option to clear command line.",
         "Triggers are here!",
         "Pathificator now displays favorite rooms",

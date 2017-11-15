@@ -29,11 +29,22 @@ Triggers = function(send, ui) {
         for (i in triggers) {
             var str = unHtml(mudstr);
             console.debug("Trigger match", JSON.stringify(str), triggers[i][0]);
-            if (str.match(triggers[i][0])) {
-                send(triggers[i][1]) // TODO triggers executing code
+            var regex = triggers[i][0];
+            var response = triggers[i][1];
+            var result = regex.exec(str);
+            if (result) {
+                response = exports.substituteMatches(response, result);
+                send(response) // TODO triggers executing code
                 return
             }
         }
+    }
+
+    exports.substituteMatches = function(str, matches) {
+        for (var i = 0; i < matches.length; ++i) {
+            str = str.replace(RegExp("%" + i, "g"), matches[i]);
+        }
+        return str;
     }
 
     exports.get = function() {
