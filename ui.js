@@ -9,6 +9,8 @@ var Ui = function(options, send) {
     lineHeight = parseInt(document.defaultView.getComputedStyle(outputf, null)['line-height'].replace("px", ""));
     var page = Math.floor(winHeight / lineHeight) + 1;
     var maxlen = page * 10;
+    var commandHistory = [];
+    var commandHistoryIdx = 0;
 
     exports.blit = function() {
         outputf.innerHTML = outS.join('');
@@ -53,16 +55,49 @@ var Ui = function(options, send) {
 
     inputf.onkeydown = function(e) {
         if (e.key == "Enter") {
-            send(inputf.value);
-            if ('clearCommand' in options && options['clearCommand'])
-                inputf.value = '';
-            else
-                inputf.select();
-            return false;
+            onEnter();
+        } else if (e.key == "ArrowUp") {
+            onArrowUp();
+        } else if (e.key == "ArrowDown") {
+            onArrowDown();
         } else if (e.keyCode in exports.macros) {
             exports.macros[e.keyCode]();
-            return false;
+        } else { // not handled, pass control to the control
+            return;
         }
+        e.preventDefault();
+    }
+
+    function onEnter() {
+        commandHistory.push(inputf.value);
+        commandHistoryIdx = 0;
+        send(inputf.value);
+        if ('clearCommand' in options && options['clearCommand'])
+            inputf.value = '';
+        else
+            inputf.select();
+    }
+
+    function onArrowUp() {
+        if (window.getSelection().type == 'Caret') { // the user typed a partial command
+            for (var i = commandHistory.length; i --> 0;) {
+                if (commandHistory[i].substr(0, inputf.value.length) == inputf.value) {
+                    commandHistoryIdx = commandHistory.length - i - 1;
+                    inputf.value = commandHistory[i];
+                    inputf.select();
+                    return;
+                }
+            }
+        }
+        commandHistoryIdx = Math.min(commandHistoryIdx + 1, commandHistory.length - 1);
+        inputf.value = commandHistory[commandHistory.length - commandHistoryIdx - 1];
+        inputf.select();
+    }
+
+    function onArrowDown() {
+        commandHistoryIdx = Math.max(commandHistoryIdx - 1, 0);
+        inputf.value = commandHistory[commandHistory.length - commandHistoryIdx - 1];
+        inputf.select();
     }
 
     exports.focusOnInput = function() {
