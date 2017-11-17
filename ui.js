@@ -40,11 +40,12 @@ var Ui = function(options, send) {
     };
 
     exports.macros = {
+         96: function() {send("d")},
          97: function() {send("sw")},
          98: function() {send("s")},
          99: function() {send("se")},
         100: function() {send("w")},
-        101: function() {send("l")},
+        101: function() {send("u")},
         102: function() {send("e")},
         103: function() {send("nw")},
         104: function() {send("n")},
