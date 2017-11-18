@@ -82,11 +82,15 @@ ul#menuitems > li {
     position: fixed;
     top: 55px;
     right: 20px;
-    width: minmax(15em, 30%);
-    display: table;
+    /* width: minmax(15em, 30%); */
+    display: none;
     border-spacing: 5px;
     background-color: #d2d2d2;
     padding-left: 0px;
+}
+
+#gearCheckbox:checked ~ #stuffList {
+    display: table;
 }
 
 #stuffList li {
