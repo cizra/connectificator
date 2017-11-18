@@ -123,7 +123,7 @@ var Gmcp = function() {
 
     function runOnGmcps(cmd, obj) {
         if (cmd in handlers)
-            handlers[cmd](obj);
+            handlers[cmd].forEach(callback => callback(obj));
     }
 
     exports.parse = function(input) {
@@ -140,7 +140,9 @@ var Gmcp = function() {
     }
 
     exports.handle = function(cmd, callable) {
-        handlers[cmd] = callable;
+        if (!(cmd in handlers))
+            handlers[cmd] = []
+        handlers[cmd].push(callable);
     }
 
     exports.rnum = function() {
