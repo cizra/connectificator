@@ -82,7 +82,8 @@ ul#menuitems > li {
     position: fixed;
     top: 55px;
     right: 20px;
-    /* width: minmax(15em, 30%); */
+    max-width: 30%;
+    min-width: 10em;
     display: none;
     border-spacing: 5px;
     background-color: #d2d2d2;
