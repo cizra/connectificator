@@ -102,7 +102,7 @@ var Pathificator = function(send, gmcp, ui) {
         );
 
         var items = [];
-        items.push([["Cancel", ui.clearStuff]]);
+        items.push([[""], ["Cancel", ui.clearStuff]]);
         roomsA.forEach(room => {
             var roomId = room[0];
             var roomName = room[1];

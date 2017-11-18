@@ -120,7 +120,7 @@ Triggers = function(send, ui) {
 
     exports.draw = function() {
         var drawMe = [];
-        drawMe.push([["New", ()=>trgEdit()]]); // lose the mouseevent
+        drawMe.push([["New", ()=>trgEdit()], ["Cancel", ui.clearStuff]]); // lose the mouseevent
         for (i in triggers) {
             var j = i;
             function pushOneTrg(j) {
