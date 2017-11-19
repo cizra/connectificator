@@ -123,6 +123,7 @@ var Gmcp = function() {
     }
 
     function runOnGmcps(cmd, obj) {
+        console.debug(cmd, obj);
         if (cmd in handlers)
             handlers[cmd].forEach(callback => callback(obj));
     }

@@ -28,7 +28,7 @@ Triggers = function(send, ui) {
 
         for (i in triggers) {
             var str = unHtml(mudstr);
-            console.debug("Trigger match", JSON.stringify(str), triggers[i][0]);
+            // console.debug("Trigger match", JSON.stringify(str), triggers[i][0]);
             var regex = triggers[i][0];
             var response = triggers[i][1];
             var result = regex.exec(str);
