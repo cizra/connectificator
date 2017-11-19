@@ -112,6 +112,7 @@ var Gmcp = function() {
         try {
             obj = JSON.parse(data);
         } catch(e) {
+            console.warn("Bad JSON in GMCP:", e, data);
             if (e instanceof SyntaxError)
                 obj = {"string": data};
             else
