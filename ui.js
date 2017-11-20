@@ -81,6 +81,7 @@ var Ui = function(options, send, gmcp) {
                 out.push([[typeAndContent[1]]]);
         });
         exports.toMenu(out, false, true);
+        stuffListScroll.scrollTop = stuffListScroll.scrollHeight;
     }
 
     gear.onchange = function(e) {
