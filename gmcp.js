@@ -109,6 +109,7 @@ var Gmcp = function() {
             current = current[nest];
         }
         var obj = null;
+        data = data.replace(/\x1b/g, "\\u001b");
         try {
             obj = JSON.parse(data);
         } catch(e) {
