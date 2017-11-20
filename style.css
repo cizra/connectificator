@@ -1,15 +1,13 @@
 table {border-collapse: collapse;}
 
-#menu ul li {
-    background-color: #f2f2f2;
-    margin: 3px;
+body, #menu ul li {
+    color: #bbbbbb;
+    background-color: #272727;
 } 
 
 body {
     margin: 0;
     padding: 0;
-    color: #909090;
-    background: #272727;
     font-family: sans-serif;
 }
 
@@ -79,15 +77,23 @@ ul#menuitems > li {
 }
 
 #menu #stuffList {
+    display: table;
+    border-spacing: 5px;
+    background-color: #272727;
+    border: 2px solid #373737;
+    padding-left: 0px;
+}
+
+#stuffListBox {
+    display: block;
     position: fixed;
     top: 55px;
     right: 20px;
     max-width: 30%;
     min-width: 10em;
-    display: none;
-    border-spacing: 5px;
-    background-color: #d2d2d2;
-    padding-left: 0px;
+    /* max-height: calc(100% - 55px - (1.5em + 18px)); */
+    max-height: 30%;
+    overflow-y: auto;
 }
 
 #gearCheckbox:checked ~ #stuffList {
@@ -98,7 +104,7 @@ ul#menuitems > li {
     list-style-type:none;
     border: 1px solid #ddd;
     padding: 8px;
-    background-color: #d2d2d2;
+    background-color: #020202;
     color: #101010;
     margin: 0px;
     display: table-row;
@@ -109,7 +115,7 @@ ul#menuitems > li {
 }
 
 #stuffList li:nth-child(even) {
-    background: #c0c0c0;
+    background: #474747;
 }
 
 #stuffList li:hover {

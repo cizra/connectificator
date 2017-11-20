@@ -8,6 +8,7 @@ function addGmcpHandlers() {
 
 function changelog() {
     var changes = [
+        "Comm log subwindow",
         "Added command history.\nType a command. Type lots of other commands. Then type the beginning of an old command and smash ArrowUp key -- it'll find and complete it.",
         "Triggers are now parametric. For example,\n^(.+) says, \"(.+)\"$\n'%2 %2 yourself, you %1\nNicodemus the old fisherman says, \"hi\"\nYou say, \"hi hi yourself, you Nicodemus the old fisherman\"",
         "Added option to clear command line.",
@@ -29,9 +30,11 @@ function changelog() {
     window.localStorage.setItem('version', version)
 }
 
+var ui = null;
+
 function loadOptions() {
-    options = JSON.parse(window.localStorage.getItem('options') || "{}");
-    function save() {
+    var options = JSON.parse(window.localStorage.getItem('options') || "{}");
+    options.save = function() {
         window.localStorage.setItem('options', JSON.stringify(options));
     }
 
@@ -42,9 +45,14 @@ function loadOptions() {
             options['clearCommand'] = !options['clearCommand'];
         else
             options['clearCommand'] = true; // the default being Off
-        save();
-        loadOptions();
+        options.save();
+        clearCommandBtn.value = options['clearCommand'] ? 'On' : 'Off';
     }
+
+    var commLogOptions = document.getElementById('commLogOptions');
+    commLogOptions.onclick = function() {
+        ui.commLogOptions();
+    };
     return options;
 }
 
@@ -54,7 +62,6 @@ var gmcp = null;
 var pathificator = null;
 
 function start() {
-    var ui = null;
     var options = loadOptions();
     function send(text) {
         if (text[0] == ';')
@@ -68,7 +75,7 @@ function start() {
         ui.blit();
     }
     gmcp = Gmcp();
-    ui = Ui(options, send);
+    ui = Ui(options, send, gmcp);
     /* var */ triggers = Triggers(send, ui);
     function onMudOutput(str) {
         ui.output(str, triggers.run)
