@@ -41,3 +41,18 @@ body {
     right: 0px;
     left: 0px;
 }
+
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+#directionPad {
+    position: fixed;
+    top: 50%;
+    right: 21px;
+    transform: translate(0%, -50%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}

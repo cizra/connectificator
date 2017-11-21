@@ -136,3 +136,15 @@ ul#menuitems > li {
 #popup input {
     margin: 1em;
     display: block;
+}
+
+#directionPad {
+    width: 3em;
+    border-radius: 3px;
+    font-size: 300%;
+    color: #373737;
+}
+
+#directionPad div.active {
+    color: #dddddd;
+}

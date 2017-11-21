@@ -8,6 +8,7 @@ function addGmcpHandlers() {
 
 function changelog() {
     var changes = [
+        "Direction pad",
         "Comm log subwindow",
         "Added command history.\nType a command. Type lots of other commands. Then type the beginning of an old command and smash ArrowUp key -- it'll find and complete it.",
         "Triggers are now parametric. For example,\n^(.+) says, \"(.+)\"$\n'%2 %2 yourself, you %1\nNicodemus the old fisherman says, \"hi\"\nYou say, \"hi hi yourself, you Nicodemus the old fisherman\"",
@@ -82,6 +83,7 @@ function start() {
     }
     var socket = Socket(onMudOutput, ui.blit, gmcp);
     pathificator = Pathificator(send, gmcp, ui);
+    directionPad = DirectionPad(gmcp);
     addGmcpHandlers();
     document.getElementById('triggersBtn').onclick = function() { triggers.draw() }
     window.onkeypress = function() {
