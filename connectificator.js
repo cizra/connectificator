@@ -8,6 +8,7 @@ function addGmcpHandlers() {
 
 function changelog() {
     var changes = [
+        "Direction pad is clicable, for playing on phones",
         "Direction pad",
         "Comm log subwindow",
         "Added command history.\nType a command. Type lots of other commands. Then type the beginning of an old command and smash ArrowUp key -- it'll find and complete it.",
@@ -83,7 +84,7 @@ function start() {
     }
     var socket = Socket(onMudOutput, ui.blit, gmcp);
     pathificator = Pathificator(send, gmcp, ui);
-    directionPad = DirectionPad(gmcp);
+    directionPad = DirectionPad(gmcp, send);
     addGmcpHandlers();
     document.getElementById('triggersBtn').onclick = function() { triggers.draw() }
     window.onkeypress = function() {

@@ -94,8 +94,9 @@ var Ui = function(options, send, gmcp) {
     exports.blit = function() {
         outputf.innerHTML = outS.join('');
         // Only scroll if the user isn't reading backlog
-        if (inputf === document.activeElement)
-            output.scrollTop = output.scrollHeight;
+        // TODO rethink. Direction pad, plus it still jerks around when mud spews text.
+        // if (inputf === document.activeElement)
+        output.scrollTop = output.scrollHeight;
     };
 
     function capOutput() {

@@ -1,4 +1,4 @@
-var DirectionPad = function(gmcp) {
+var DirectionPad = function(gmcp, send) {
     var pad = document.getElementById('directionPad');
     var [nw, n, ne, u, w, center, e, empty, sw, s, se, d] = pad.children;
     var dirs = {
@@ -15,6 +15,11 @@ var DirectionPad = function(gmcp) {
         'center': center,
         'empty': empty // TODO show something fun like presence of mobs or something
     }
+
+    for (var d in dirs)
+        dirs[d].onclick = function(cmd) {
+            return function() { send(cmd) }
+        }(d);
 
     gmcp.handle("room.info", function(ri) {
         var present = {
