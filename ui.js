@@ -1,4 +1,4 @@
-var Ui = function(options, send, gmcp) {
+var Ui = function(options, send, gmcp, macros) {
     var exports = {};
     var commLog = []; // list of [type, content]
     var commLogTypesEnabled = options['commLogTypesEnabled'] || {};
@@ -119,21 +119,6 @@ var Ui = function(options, send, gmcp) {
         capOutput();
     };
 
-    exports.macros = {
-         96: function() {send("d")},
-         97: function() {send("sw")},
-         98: function() {send("s")},
-         99: function() {send("se")},
-        100: function() {send("w")},
-        101: function() {send("u")},
-        102: function() {send("e")},
-        103: function() {send("nw")},
-        104: function() {send("n")},
-        105: function() {send("ne")},
-        107: function() {send("d")},
-        109: function() {send("u")}
-    }
-
     inputf.onkeydown = function(e) {
         if (e.key == "Enter") {
             onEnter();
@@ -141,9 +126,8 @@ var Ui = function(options, send, gmcp) {
             onArrowUp();
         } else if (e.key == "ArrowDown") {
             onArrowDown();
-        } else if (e.keyCode in exports.macros) {
-            exports.macros[e.keyCode]();
-        } else { // not handled, pass control to the control
+        } else if (!macros.run(e.keyCode)) {
+            // not handled, pass control to the control
             return;
         }
         e.preventDefault();

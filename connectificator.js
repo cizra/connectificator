@@ -77,8 +77,9 @@ function start() {
         ui.blit();
     }
     gmcp = Gmcp();
-    ui = Ui(options, send, gmcp);
-    /* var */ triggers = Triggers(send, ui);
+    var macros = Macros(send);
+    ui = Ui(options, send, gmcp, macros);
+    var triggers = Triggers(send, ui);
     function onMudOutput(str) {
         ui.output(str, triggers.run)
     }
