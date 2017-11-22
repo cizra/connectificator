@@ -48,6 +48,10 @@ var Macros = function(send) {
     for (var k in macros_backup)
         macros[k] = macros_backup[k];
 
+    function openDoorAndGo(dir) {
+        return macros[reverse_mapping[dir]];
+    }
+
     gmcp.handle("room.info", function(ri) {
         var present = {
             'nw': false,
@@ -73,7 +77,7 @@ var Macros = function(send) {
         }
     });
 
-    exports.run = function(keyCode) {
+    function run(keyCode) {
         if (keyCode in macros) {
             send(macros[keyCode]);
             return true;
@@ -81,5 +85,9 @@ var Macros = function(send) {
         return false;
     }
 
+    exports.run = run;
+    exports.macros = macros;
+    exports.reverse_mapping = reverse_mapping
+    exports.openDoorAndGo = openDoorAndGo
     return exports;
 }

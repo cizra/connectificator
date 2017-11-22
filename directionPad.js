@@ -1,4 +1,4 @@
-var DirectionPad = function(gmcp, send) {
+var DirectionPad = function(gmcp, send, macros) {
     var pad = document.getElementById('directionPad');
     var [nw, n, ne, u, w, center, e, empty, sw, s, se, d] = pad.children;
     var dirs = {
@@ -18,7 +18,7 @@ var DirectionPad = function(gmcp, send) {
 
     for (var d in dirs)
         dirs[d].onclick = function(cmd) {
-            return function() { send(cmd) }
+            return function() { send(macros.openDoorAndGo(cmd)) }
         }(d);
 
     gmcp.handle("room.info", function(ri) {

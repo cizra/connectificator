@@ -8,6 +8,7 @@ function addGmcpHandlers() {
 
 function changelog() {
     var changes = [
+        "Direction pad and numpad automagically open doors now.",
         "Direction pad is clicable, for playing on phones",
         "Direction pad",
         "Comm log subwindow",
@@ -85,7 +86,7 @@ function start() {
     }
     var socket = Socket(onMudOutput, ui.blit, gmcp);
     pathificator = Pathificator(send, gmcp, ui);
-    directionPad = DirectionPad(gmcp, send);
+    directionPad = DirectionPad(gmcp, send, macros);
     addGmcpHandlers();
     document.getElementById('triggersBtn').onclick = function() { triggers.draw() }
     window.onkeypress = function() {
