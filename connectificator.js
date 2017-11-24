@@ -89,7 +89,9 @@ function start() {
     directionPad = DirectionPad(gmcp, send, macros);
     addGmcpHandlers();
     document.getElementById('triggersBtn').onclick = function() { triggers.draw() }
-    window.onkeypress = function() {
+    window.onkeypress = function(e) {
+        if (macros.run(e.code))
+            return;
         if (document.activeElement.tagName != "INPUT")
             ui.focusOnInput();
         return true;

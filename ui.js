@@ -126,7 +126,7 @@ var Ui = function(options, send, gmcp, macros) {
             onArrowUp();
         } else if (e.key == "ArrowDown") {
             onArrowDown();
-        } else if (!macros.run(e.keyCode)) {
+        } else if (!macros.run(e.code)) {
             // not handled, pass control to the control
             return;
         }

@@ -2,45 +2,45 @@ var Macros = function(send) {
     var exports = {};
 
     var macros_backup = {
-         96: "numpad0",
-         97: "sw",
-         98: "s",
-         99: "se",
-        100: "w",
-        101: "numpad5",
-        102: "e",
-        103: "nw",
-        104: "n",
-        105: "ne",
-        106: "numpadMultiply",
-        107: "d",
-        109: "u",
-        110: "numpadDecimal",
-        111: "numpadDivide",
-        112: "macroF1",
-        113: "macroF2",
-        114: "macroF3",
-        115: "macroF4",
-        116: "macroF5",
-        117: "macroF6",
-        118: "macroF7",
-        119: "macroF8",
-        120: "macroF9",
-        121: "macroF10",
-        122: "macroF11",
-        123: "macroF12"
+         "Numpad0": "numpad0",
+         "Numpad1": "sw",
+         "Numpad2": "s",
+         "Numpad3": "se",
+        "Numpad4": "w",
+        "Numpad5": "numpad5",
+        "Numpad6": "e",
+        "Numpad7": "nw",
+        "Numpad8": "n",
+        "Numpad9": "ne",
+        "NumpadMultiply": "numpadMultiply",
+        "NumpadAdd": "d",
+        "NumpadSubtract": "u",
+        "NumpadDecimal": "numpadDecimal",
+        "NumpadDivide": "numpadDivide",
+        "F1": "macroF1",
+        "F2": "macroF2",
+        "F3": "macroF3",
+        "F4": "macroF4",
+        "F5": "macroF5",
+        "F6": "macroF6",
+        "F7": "macroF7",
+        "F8": "macroF8",
+        "F9": "macroF9",
+        "F10": "macroF10",
+        "F11": "macroF11",
+        "F12": "macroF12"
     }
     var macros = {};
 
     var reverse_mapping = {
-        'sw': 97,
-        's': 98,
-        'se': 99,
-        'w': 100,
-        'e': 102,
-        'nw': 103,
-        'n': 104,
-        'ne': 105,
+        'sw': "Numpad1",
+        's': "Numpad2",
+        'se': "Numpad3",
+        'w': "Numpad4",
+        'e': "Numpad6",
+        'nw': "Numpad7",
+        'n': "Numpad8",
+        'ne': "Numpad9",
         'd': 107,
         'u': 109
     }
@@ -77,9 +77,9 @@ var Macros = function(send) {
         }
     });
 
-    function run(keyCode) {
-        if (keyCode in macros) {
-            send(macros[keyCode]);
+    function run(code) {
+        if (code in macros) {
+            send(macros[code]);
             return true;
         }
         return false;
