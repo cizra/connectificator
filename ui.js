@@ -71,9 +71,11 @@ var Ui = function(options, send, gmcp, macros) {
     gmcp.handle("comm.channel", toCommLog);
 
     function drawTellHistory() {
-        stuffList.innerHTML = "";
         if (commLog.length == 0)
             return;
+
+        stuffListScroll.style.display = 'block';
+        stuffList.innerHTML = "";
 
         var out = [];
         commLog.forEach(function(typeAndContent) {
@@ -85,10 +87,12 @@ var Ui = function(options, send, gmcp, macros) {
     }
 
     gear.onchange = function(e) {
-        if (gear.checked)
+        if (gear.checked) {
             stuffList.innerHTML = "";
-        else
+            stuffListScroll.style.display = 'none';
+        } else {
             drawTellHistory();
+        }
     }
 
     exports.blit = function() {
@@ -185,6 +189,7 @@ var Ui = function(options, send, gmcp, macros) {
 
     // Takes an array of rows, where a row consists of items: [text, (optional callback)]
     exports.toMenu = function(array, noclear, html) {
+        stuffListScroll.style.display = 'block';
         if (!noclear)
             stuffList.innerHTML = ""; // XXX
         var _li_ = document.createElement('li');
@@ -212,10 +217,12 @@ var Ui = function(options, send, gmcp, macros) {
     }
 
     exports.clearStuff = function() {
-        if (gear.checked)
+        if (gear.checked) {
             stuffList.innerHTML = "";
-        else
+            stuffListScroll.style.display = 'none';
+        } else {
             drawTellHistory();
+        }
     }
 
     inputf.select();

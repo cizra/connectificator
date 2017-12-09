@@ -85,7 +85,7 @@ ul#menuitems > li {
 }
 
 #stuffListBox {
-    display: block;
+    display: none;
     position: fixed;
     top: 55px;
     right: 20px;
