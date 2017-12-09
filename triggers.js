@@ -1,23 +1,33 @@
 Triggers = function(send, ui) {
+    var profile = "default";
     var exports = {};
+    var triggers = [];  // ordered list of pairs (regex, action)
 
     function deserialize(str) {
         str = str.substr(1, str.length - 2); // drop surrounding /
         return RegExp(str);
     }
 
-    // ordered list of pairs (regex, action)
-    var triggers = function() {
-        var out = [];
-        var tmptrg = JSON.parse(window.localStorage.getItem('triggers') || "[]");
-        tmptrg.forEach(t => out.push([deserialize(t[0]), t[1]]))
-        return out
-    }()
+    function read() {
+        var profiles = JSON.parse(window.localStorage.getItem('triggers') || "{}");
+        if (!("default" in profiles))
+            profiles["default"] = []
+        return profiles;
+    }
+
+    function load() {
+        triggers = [];
+        var profiles = read();
+        profiles[profile].forEach(t => triggers.push([deserialize(t[0]), t[1]]))
+    }
+    load();
 
     function save() {
         var out = [];
         triggers.forEach(t => out.push([t[0].toString(), t[1]]));
-        window.localStorage.setItem('triggers', JSON.stringify(out))
+        var profiles = read();
+        profiles[profile] = out;
+        window.localStorage.setItem('triggers', JSON.stringify(profiles))
     }
 
     exports.run = function(mudstr) {
@@ -45,10 +55,6 @@ Triggers = function(send, ui) {
             str = str.replace(RegExp("%" + i, "g"), matches[i]);
         }
         return str;
-    }
-
-    exports.get = function() {
-        return triggers
     }
 
     function trgEdit(id) {
@@ -118,9 +124,118 @@ Triggers = function(send, ui) {
         match.focus();
     }
 
-    exports.draw = function() {
+    function btn(label, cb) {
+        var input = document.createElement('input');
+        input.type = 'button';
+        input.value = label;
+        input.onclick = cb;
+        return input;
+    }
+
+    function populateProfiles(select) {
+        select.innerHTML = "";
+        var saved = read();
+        var profiles = Object.keys(saved);
+        profiles.forEach(function(p) {
+            var option = document.createElement('option');
+            option.selected = p === profile;
+            option.text = p;
+            if (p === 'default')
+                select.add(option, 1);
+            else
+                select.add(option);
+        });
+    }
+
+    function editProfiles() {
+        ui.clearStuff();
+
+        var newProfile = document.createElement('input')
+        newProfile.type = 'text'
+        var closeBtn = btn('Close', ui.dismissPopup);
+        var select = document.createElement('select')
+        select.style.display = 'inline';
+        populateProfiles(select);
+        var addBtn = btn('Add', function() {
+            profile = newProfile.value;
+            triggers = [];
+            var profiles = read();
+            if (!(profile in profiles)) {
+                profiles[profile] = [];
+                var option = document.createElement('option');
+                option.text = profile;
+                select.add(option);
+                save();
+                populateProfiles(select);
+            }
+        });
+        addBtn.style.display = 'inline';
+
+        var deleteBtn = btn('Delete', function() {
+            var saved = read();
+            delete saved[select.value];
+            profile = "default";
+            load(); // in case we're deleting the active profile
+
+            // save() merges
+            var profiles = read();
+            delete profiles[select.value];
+            window.localStorage.setItem('triggers', JSON.stringify(profiles))
+
+            populateProfiles(select);
+        });
+        deleteBtn.style.display = 'inline';
+        select.onchange = function() {
+            deleteBtn.disabled = select.value === 'default'
+        }
+        select.onchange();
+
+        newProfile.oninput = function () {
+            addBtn.disabled = !newProfile.value;
+        }
+        newProfile.oninput();
+        newProfile.style.display = 'inline';
+
+        var deleteRow = document.createElement('span');
+        var addRow = document.createElement('span');
+        addRow.appendChild(newProfile);
+        addRow.appendChild(addBtn);
+        addRow.style.display = 'block';
+        deleteRow.appendChild(select);
+        deleteRow.appendChild(deleteBtn);
+        deleteRow.style.display = 'block';
+
+        var elems = [deleteRow, addRow, closeBtn];
+        ui.popup("Add/remove trigger profiles", elems);
+    }
+
+    function drawTriggerProfilesSelect() {
         var drawMe = [];
-        drawMe.push([["New", ()=>trgEdit()], ["Cancel", ui.clearStuff]]); // lose the mouseevent
+
+        var select = document.createElement('select');
+        populateProfiles(select);
+
+        var editOption = document.createElement('option');
+        editOption.text = '<edit>';
+        select.add(editOption, 0);
+
+        select.onchange = function(e) {
+            if (select.value == '<edit>') {
+                editProfiles();
+                return;
+            }
+            // previous profile got saved when last edited
+            profile = select.value;
+            load();
+            exports.draw();
+        }
+        drawMe.push([["New", ()=>trgEdit()], [select]]);
+        ui.toMenu(drawMe)
+    }
+
+    exports.draw = function() {
+        drawTriggerProfilesSelect();
+        var drawMe = [];
         for (i in triggers) {
             var j = i;
             function pushOneTrg(j) {
@@ -133,7 +248,7 @@ Triggers = function(send, ui) {
             };
             pushOneTrg(i)
         }
-        ui.toMenu(drawMe)
+        ui.toMenu(drawMe, true)
     }
 
     return exports

@@ -7,7 +7,17 @@ function addGmcpHandlers() {
 }
 
 function changelog() {
+    var migrations = {};
+    migrations[13] = function() {
+        var trgJs = window.localStorage.getItem('triggers');
+        var trg = [];
+        if (trgJs !== null) {
+            var trg = JSON.parse(trgJs);
+        }
+        window.localStorage.setItem('triggers', JSON.stringify({"default": trg}));
+    }
     var changes = [
+        "Added trigger profiles.",
         "Direction pad and numpad automagically open doors now.",
         "Direction pad is clicable, for playing on phones",
         "Direction pad",
@@ -26,8 +36,11 @@ function changelog() {
     var oldVersion = parseInt(window.localStorage.getItem('version')) || 0
     console.assert(version >= oldVersion)
     var changelog = "Changelog:\n"
-    for (i = 0; i < version - oldVersion; ++i)
-        changelog += "\nv" + (version - i) + ":\n" + changes[i] + '\n'
+    for (i = oldVersion; i < version; ++i) {
+        if (i in migrations)
+            migrations[i]();
+        changelog += "\nv" + i + ":\n" + changes[changes.length - i - 1] + '\n'
+    }
     if (changelog != "Changelog:\n")
         alert(changelog)
     window.localStorage.setItem('version', version)

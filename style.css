@@ -133,8 +133,12 @@ ul#menuitems > li {
     display: none;
 }
 
-#popup input {
+#popup input, #popup select {
     margin: 1em;
+    display: block;
+}
+
+#popup span, #popup input {
     display: block;
 }
 

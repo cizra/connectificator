@@ -195,10 +195,14 @@ var Ui = function(options, send, gmcp, macros) {
             var rowOut = _li_.cloneNode(false);
             for (var item in array[i]) {
                 var cellOut = _div_.cloneNode(false);
-                if (!html)
-                    cellOut.appendChild(document.createTextNode(array[i][item][0])); /* escapes any possible HTML */
+
+                if (array[i][item][0] instanceof HTMLElement)
+                    cellOut.appendChild(array[i][item][0]);
+                else if (!html)
+                    cellOut.appendChild(document.createTextNode(array[i][item][0]));
                 else
-                    cellOut.innerHTML = array[i][item][0]; /* escapes any possible HTML */
+                    cellOut.innerHTML = array[i][item][0];
+
                 if (array[i][item].length == 2)
                     cellOut.onclick = array[i][item][1];
                 rowOut.appendChild(cellOut);
