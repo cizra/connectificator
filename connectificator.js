@@ -17,6 +17,7 @@ function changelog() {
         window.localStorage.setItem('triggers', JSON.stringify({"default": trg}));
     }
     var changes = [
+        "Added Killificator -- press / on Numpad or tap the number for great fun.",
         "Added trigger profiles.",
         "Direction pad and numpad automagically open doors now.",
         "Direction pad is clicable, for playing on phones",
@@ -91,7 +92,8 @@ function start() {
         ui.blit();
     }
     gmcp = Gmcp();
-    var macros = Macros(send);
+    var killificator = Killificator(send, gmcp);
+    var macros = Macros(send, killificator);
     ui = Ui(options, send, gmcp, macros);
     var triggers = Triggers(send, ui);
     function onMudOutput(str) {
@@ -99,7 +101,7 @@ function start() {
     }
     var socket = Socket(onMudOutput, ui.blit, gmcp);
     pathificator = Pathificator(send, gmcp, ui);
-    directionPad = DirectionPad(gmcp, send, macros);
+    directionPad = DirectionPad(gmcp, send, macros, killificator);
     addGmcpHandlers();
     document.getElementById('triggersBtn').onclick = function() { triggers.draw() }
     window.onkeypress = function(e) {

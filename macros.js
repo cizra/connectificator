@@ -1,11 +1,12 @@
-var Macros = function(send) {
+var Macros = function(send, killificator) {
     var exports = {};
 
+    // We need backup because the presence of doors overrides directions
     var macros_backup = {
-         "Numpad0": "numpad0",
-         "Numpad1": "sw",
-         "Numpad2": "s",
-         "Numpad3": "se",
+        "Numpad0": "numpad0",
+        "Numpad1": "sw",
+        "Numpad2": "s",
+        "Numpad3": "se",
         "Numpad4": "w",
         "Numpad5": "numpad5",
         "Numpad6": "e",
@@ -16,7 +17,7 @@ var Macros = function(send) {
         "NumpadAdd": "d",
         "NumpadSubtract": "u",
         "NumpadDecimal": "numpadDecimal",
-        "NumpadDivide": "numpadDivide",
+        "NumpadDivide": killificator.go,
         "F1": "macroF1",
         "F2": "macroF2",
         "F3": "macroF3",
@@ -32,6 +33,8 @@ var Macros = function(send) {
     }
     var macros = {};
 
+    // to make taps on direction pad and numpad keys behave the same, we
+    // consolidate the command (walk or door+walk) in one place
     var reverse_mapping = {
         'sw': "Numpad1",
         's': "Numpad2",
@@ -79,7 +82,10 @@ var Macros = function(send) {
 
     function run(code) {
         if (code in macros) {
-            send(macros[code]);
+            if (macros[code] instanceof Function)
+                macros[code]();
+            else
+                send(macros[code]);
             return true;
         }
         return false;

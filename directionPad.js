@@ -1,6 +1,6 @@
-var DirectionPad = function(gmcp, send, macros) {
+var DirectionPad = function(gmcp, send, macros, killificator) {
     var pad = document.getElementById('directionPad');
-    var [nw, n, ne, u, w, center, e, empty, sw, s, se, d] = pad.children;
+    var [nw, n, ne, u, w, center, e, mobs, sw, s, se, d] = pad.children;
     var dirs = {
         'nw': nw,
         'ne': ne,
@@ -13,13 +13,24 @@ var DirectionPad = function(gmcp, send, macros) {
         'u': u,
         'd': d,
         'center': center,
-        'empty': empty // TODO show something fun like presence of mobs or something
+        'mobs': mobs
     }
 
     for (var d in dirs)
         dirs[d].onclick = function(cmd) {
             return function() { send(macros.openDoorAndGo(cmd)) }
         }(d);
+    dirs['mobs'].onclick = function(cmd) {
+        killificator.go();
+    }
+
+    gmcp.handle("room.mobs", function(rm) {
+        dirs['mobs'].innerText = rm.length <= 9 ? rm.length : '∞';
+        if (rm.length > 0)
+            dirs['mobs'].classList.add('active');
+        else
+            dirs['mobs'].classList.remove('active');
+    });
 
     gmcp.handle("room.info", function(ri) {
         var present = {
