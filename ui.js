@@ -148,7 +148,9 @@ var Ui = function(options, send, gmcp, macros) {
     }
 
     function onArrowUp() {
-        if (window.getSelection().type == 'Caret') { // the user typed a partial command
+        // the user typed a partial command
+        // if (document.getSelection().type == 'Caret') { -- works in Chrome but not in Firefox
+        if (inputf.selectionStart == inputf.selectionEnd) {
             for (var i = commandHistory.length; i --> 0;) {
                 if (commandHistory[i].substr(0, inputf.value.length) == inputf.value) {
                     commandHistoryIdx = commandHistory.length - i - 1;
