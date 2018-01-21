@@ -1,7 +1,8 @@
 Triggers = function(send, ui) {
     var profile = "default";
     var exports = {};
-    var triggers = [];  // ordered list of pairs (regex, action)
+    var triggers = [];  // ordered list of pairs (regex, action) -- current profile
+    var defaultTriggers = [];  // ordered list of pairs (regex, action) -- these match across all profiles
 
     function deserialize(str) {
         str = str.substr(1, str.length - 2); // drop surrounding /
@@ -16,15 +17,17 @@ Triggers = function(send, ui) {
     }
 
     function load() {
-        triggers = [];
+        var out = profile == 'default' ? defaultTriggers : triggers;
+        out.length = 0;
         var profiles = read();
-        profiles[profile].forEach(t => triggers.push([deserialize(t[0]), t[1]]))
+        profiles[profile].forEach(t => out.push([deserialize(t[0]), t[1]]))
     }
     load();
 
     function save() {
         var out = [];
-        triggers.forEach(t => out.push([t[0].toString(), t[1]]));
+        var trg = profile == 'default' ? defaultTriggers : triggers;
+        trg.forEach(t => out.push([t[0].toString(), t[1]]));
         var profiles = read();
         profiles[profile] = out;
         window.localStorage.setItem('triggers', JSON.stringify(profiles))
@@ -36,18 +39,21 @@ Triggers = function(send, ui) {
             return parser.documentElement.textContent;
         }
 
-        for (i in triggers) {
-            var str = unHtml(mudstr);
-            // console.debug("Trigger match", JSON.stringify(str), triggers[i][0]);
-            var regex = triggers[i][0];
-            var response = triggers[i][1];
-            var result = regex.exec(str);
-            if (result) {
-                response = exports.substituteMatches(response, result);
-                send(response) // TODO triggers executing code
-                return
+        function match(trg) {
+            for (i in trg) {
+                var str = unHtml(mudstr);
+                // console.debug("Trigger match", JSON.stringify(str), trg[i][0]);
+                var regex = trg[i][0];
+                var response = trg[i][1];
+                var result = regex.exec(str);
+                if (result) {
+                    response = exports.substituteMatches(response, result);
+                    send(response) // TODO triggers executing code
+                    return true;
+                }
             }
         }
+        match(triggers) || match(defaultTriggers);
     }
 
     exports.substituteMatches = function(str, matches) {
@@ -58,6 +64,7 @@ Triggers = function(send, ui) {
     }
 
     function trgEdit(id) {
+        var trg = profile == 'default' ? defaultTriggers : triggers;
         ui.clearStuff();
         var helplink = document.createElement('a')
         var helptext = document.createTextNode("Help")
@@ -70,8 +77,8 @@ Triggers = function(send, ui) {
                 var s = r.toString();
                 return s.substr(1, s.length - 2);
             }
-            match.value = toS(triggers[id][0]);
-            action.value = triggers[id][1];
+            match.value = toS(trg[id][0]);
+            action.value = trg[id][1];
         }
         var saveBtn = document.createElement('input')
         var cancelBtn = document.createElement('input')
@@ -90,9 +97,9 @@ Triggers = function(send, ui) {
         saveBtn.onclick = function() {
             try {
                 if (id === undefined)
-                    triggers.push([RegExp(match.value), action.value]);
+                    trg.push([RegExp(match.value), action.value]);
                 else
-                    triggers[id] = [RegExp(match.value), action.value];
+                    trg[id] = [RegExp(match.value), action.value];
             } catch (e) {
                 if (e instanceof SyntaxError) {
                     alert(e);
@@ -113,7 +120,7 @@ Triggers = function(send, ui) {
             delBtn.type = 'submit';
             delBtn.value = 'Delete';
             delBtn.onclick = function() {
-                triggers.splice(id, 1);
+                trg.splice(id, 1);
                 save();
                 ui.dismissPopup();
             }
@@ -158,7 +165,8 @@ Triggers = function(send, ui) {
         populateProfiles(select);
         var addBtn = btn('Add', function() {
             profile = newProfile.value;
-            triggers = [];
+            var trgs = profile == 'default' ? defaultTriggers : triggers;
+            trgs.length = 0;
             var profiles = read();
             if (!(profile in profiles)) {
                 profiles[profile] = [];
@@ -236,10 +244,11 @@ Triggers = function(send, ui) {
     exports.draw = function() {
         drawTriggerProfilesSelect();
         var drawMe = [];
-        for (i in triggers) {
+        var trgs = profile == 'default' ? defaultTriggers : triggers;
+        for (i in trgs) {
             var j = i;
             function pushOneTrg(j) {
-                var trg = triggers[j];
+                var trg = trgs[j];
                 function toS(r) {
                     var s = r.toString();
                     return s.substr(1, s.length - 2);

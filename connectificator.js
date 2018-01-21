@@ -17,6 +17,7 @@ function changelog() {
         window.localStorage.setItem('triggers', JSON.stringify({"default": trg}));
     }
     var changes = [
+        "Triggers in the default trigger profile now match for all profiles.",
         "Added Killificator -- press / on Numpad or tap the number for great fun.",
         "Added trigger profiles.",
         "Direction pad and numpad automagically open doors now.",
