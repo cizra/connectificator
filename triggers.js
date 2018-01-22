@@ -1,6 +1,7 @@
-Triggers = function(send, ui) {
-    var profile = "default";
+Triggers = function(send, ui, onProfileAdded) {
     var exports = {};
+    var profile = "default";
+    exports.getProfile = function() { return profile; };
     var triggers = [];  // ordered list of pairs (regex, action) -- current profile
     var defaultTriggers = [];  // ordered list of pairs (regex, action) -- these match across all profiles
 
@@ -21,6 +22,7 @@ Triggers = function(send, ui) {
         out.length = 0;
         var profiles = read();
         profiles[profile].forEach(t => out.push([deserialize(t[0]), t[1]]))
+        onProfileAdded(Object.keys(profiles));
     }
     load();
 
@@ -31,6 +33,7 @@ Triggers = function(send, ui) {
         var profiles = read();
         profiles[profile] = out;
         window.localStorage.setItem('triggers', JSON.stringify(profiles))
+        onProfileAdded(Object.keys(profiles));
     }
 
     exports.run = function(mudstr) {
@@ -137,6 +140,11 @@ Triggers = function(send, ui) {
         input.value = label;
         input.onclick = cb;
         return input;
+    }
+
+    exports.getProfiles = function() {
+        var saved = read();
+        return Object.keys(saved);
     }
 
     function populateProfiles(select) {

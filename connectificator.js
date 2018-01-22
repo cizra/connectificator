@@ -17,6 +17,7 @@ function changelog() {
         window.localStorage.setItem('triggers', JSON.stringify({"default": trg}));
     }
     var changes = [
+        "Added sending commands to other characters: `#cleric h` executes `h` in all profiles named `cleric`",
         "Added command repeat: #5 'hi executes 'hi five times",
         "Triggers in the default trigger profile now match for all profiles.",
         "Added Killificator -- press / on Numpad or tap the number for great fun.",
@@ -75,16 +76,23 @@ function loadOptions() {
     return options;
 }
 
-function handleCmd(text, send) {
-  console.assert(text[0] == '#');
-  var cmd = text.substr(1, text.indexOf(' '));
-  var arg = text.substr(text.indexOf(' ') + 1);
+function handleCmd(text, send, profiles) {
+    console.assert(text[0] == '#');
+    var cmd = text.substr(1, text.indexOf(' ') - 1);
+    var arg = text.substr(text.indexOf(' ') + 1);
 
-  if (!isNaN(cmd)) {
-    for (var i = parseInt(cmd); i --> 0;)
-      send(arg);
-    return true;
-  }
+    if (!isNaN(cmd)) {
+        for (var i = parseInt(cmd); i --> 0;)
+            send(arg);
+    } else if (cmd == 'all' || profiles.indexOf(cmd) != -1) {
+        broadcast(cmd, arg);
+        if (cmd == 'all')
+            send(arg);
+    } else {
+        ui.output('⇨' + text + '\n');
+        ui.output('⇨' + "Unknown command. Supported commands are:\n#5 to repeat commands\n#profile to send commands across windows\n");
+        ui.blit();
+    }
 }
 
 // expose to console
@@ -94,6 +102,7 @@ var pathificator = null;
 
 function start() {
     var options = loadOptions();
+    var profiles = [];
     function send(text) {
         if (text[0] == ';') {
             text = text.slice(1);
@@ -106,7 +115,7 @@ function start() {
         }
 
         if (text.startsWith('#')) {
-          handleCmd(text, send);
+          handleCmd(text, send, profiles);
           return;
         }
 
@@ -120,7 +129,11 @@ function start() {
     var killificator = Killificator(send, gmcp);
     var macros = Macros(send, killificator);
     ui = Ui(options, send, gmcp, macros);
-    var triggers = Triggers(send, ui);
+    function onProfileAdded(newProfiles) {
+      profiles.length = 0;
+      newProfiles.forEach((p) => profiles.push(p));
+    }
+    var triggers = Triggers(send, ui, onProfileAdded);
     function onMudOutput(str) {
         ui.output(str, triggers.run)
     }
@@ -136,6 +149,8 @@ function start() {
             ui.focusOnInput();
         return true;
     };
+
+    window.onstorage = (ev) => receive_broadcast(ev, triggers.getProfile(), send);
 
     changelog();
 }
