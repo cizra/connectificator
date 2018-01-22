@@ -44,7 +44,7 @@ function changelog() {
             migrations[i]();
         changelog += "\nv" + i + ":\n" + changes[changes.length - i - 1] + '\n'
     }
-    if (changelog != "Changelog:\n")
+    if (oldVersion > 0 && changelog != "Changelog:\n")
         alert(changelog)
     window.localStorage.setItem('version', version)
 }
