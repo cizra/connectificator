@@ -17,6 +17,7 @@ function changelog() {
         window.localStorage.setItem('triggers', JSON.stringify({"default": trg}));
     }
     var changes = [
+        "Added command repeat: #5 'hi executes 'hi five times",
         "Triggers in the default trigger profile now match for all profiles.",
         "Added Killificator -- press / on Numpad or tap the number for great fun.",
         "Added trigger profiles.",
@@ -74,6 +75,18 @@ function loadOptions() {
     return options;
 }
 
+function handleCmd(text, send) {
+  console.assert(text[0] == '#');
+  var cmd = text.substr(1, text.indexOf(' '));
+  var arg = text.substr(text.indexOf(' ') + 1);
+
+  if (!isNaN(cmd)) {
+    for (var i = parseInt(cmd); i --> 0;)
+      send(arg);
+    return true;
+  }
+}
+
 // expose to console
 var triggers = null;
 var gmcp = null;
@@ -86,6 +99,12 @@ function start() {
             text = text.slice(1);
         else
             text = text.replace(/;/g, "\n");
+
+        if (text.startsWith('#')) {
+          handleCmd(text, send);
+          return;
+        }
+
         socket.send(text + "\n");
         text.split(/\n/).forEach(function(line) {
             ui.output('⇨' + line + '\n');
