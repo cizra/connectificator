@@ -95,10 +95,15 @@ var pathificator = null;
 function start() {
     var options = loadOptions();
     function send(text) {
-        if (text[0] == ';')
+        if (text[0] == ';') {
             text = text.slice(1);
-        else
-            text = text.replace(/;/g, "\n");
+        } else {
+            texts = text.split(';')
+            if (texts.length > 1) {
+              texts.forEach((s) => send(s));
+              return;
+            }
+        }
 
         if (text.startsWith('#')) {
           handleCmd(text, send);
