@@ -1,6 +1,6 @@
 Triggers = function(send, ui, onProfileAdded) {
     var exports = {};
-    var profile = "default";
+    var profile = init();
     exports.getProfile = function() { return profile; };
     var triggers = [];  // ordered list of pairs (regex, action) -- current profile
     var defaultTriggers = [];  // ordered list of pairs (regex, action) -- these match across all profiles
@@ -10,10 +10,19 @@ Triggers = function(send, ui, onProfileAdded) {
         return RegExp(str);
     }
 
+    function init() {
+      var hash = window.location.hash.substr(1);
+      if (hash === '')
+          return 'default';
+      return hash;
+    }
+
     function read() {
         var profiles = JSON.parse(window.localStorage.getItem('triggers') || "{}");
         if (!("default" in profiles))
             profiles["default"] = []
+        if (!(profile in profiles))
+            profiles[profile] = []
         return profiles;
     }
 

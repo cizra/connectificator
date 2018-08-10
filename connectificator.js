@@ -17,6 +17,7 @@ function changelog() {
         window.localStorage.setItem('triggers', JSON.stringify({"default": trg}));
     }
     var changes = [
+        "Trigger profiles can how be autoloaded through hash: bookmark https://sneezymud.org#mage for `mage` profile",
         "Added sending commands to other characters: `#cleric h` executes `h` in all profiles named `cleric`",
         "Added command repeat: #5 'hi executes 'hi five times",
         "Triggers in the default trigger profile now match for all profiles.",
