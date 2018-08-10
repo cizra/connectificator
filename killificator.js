@@ -8,7 +8,8 @@ var Killificator = function(send, gmcp) {
         // TODO: pick the nearest mob by level
         if (mobs.length == 0)
             return;
-        mobs.sort((a, b) => b['level'] - a['level']);
+        // the MUD already sorts by nearest level
+        // mobs.sort((a, b) => b['level'] - a['level']);
         send("k " + mobs[0].name);
     }
     return exports;
