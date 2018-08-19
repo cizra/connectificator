@@ -41,16 +41,21 @@ ul#menuitems {
     display: inline;
 }
 
+#pauseCheckbox:checked ~ label#pause {
+    color: red;
+    background: white;
+}
+
 ul#menuitems > li {
     list-style-type:none;
     position: relative;
 }
 
-#menu #gearCheckbox {
+#menu input {
     display: none;
 }
 
-#menu #gear {
+#menu label {
     float: right;
 }
 

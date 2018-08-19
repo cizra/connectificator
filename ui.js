@@ -8,6 +8,7 @@ var Ui = function(options, send, gmcp, macros) {
     var stuffList = document.getElementById('stuffList');
     var stuffListScroll = document.getElementById('stuffListBox');
     var gear = document.getElementById('gearCheckbox');
+    var pause = document.getElementById('pauseCheckbox');
     var ansi_up = new AnsiUp;
     winHeight = parseInt(document.defaultView.getComputedStyle(document.body)['height'].replace("px", ""));
     lineHeight = parseInt(document.defaultView.getComputedStyle(outputf, null)['line-height'].replace("px", ""));
@@ -96,6 +97,8 @@ var Ui = function(options, send, gmcp, macros) {
     }
 
     exports.blit = function() {
+        if (pause.checked)
+            return;
         outputf.innerHTML = outS.join('');
         // Only scroll if the user isn't reading backlog
         // TODO rethink. Direction pad, plus it still jerks around when mud spews text.
