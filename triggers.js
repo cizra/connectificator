@@ -17,23 +17,24 @@ Triggers = function(send, ui, onProfileAdded) {
       return hash;
     }
 
-    function read() {
+    function read(prof = 'default') {
         var profiles = JSON.parse(window.localStorage.getItem('triggers') || "{}");
         if (!("default" in profiles))
             profiles["default"] = []
-        if (!(profile in profiles))
-            profiles[profile] = []
+        if (!(prof in profiles))
+            profiles[prof] = []
         return profiles;
     }
 
-    function load() {
-        var out = profile == 'default' ? defaultTriggers : triggers;
+    function load(prof) {
+        var out = (prof === undefined || prof == 'default') ? defaultTriggers : triggers;
         out.length = 0;
-        var profiles = read();
-        profiles[profile].forEach(t => out.push([deserialize(t[0]), t[1]]))
+        var profiles = read(prof);
+        profiles[prof].forEach(t => out.push([deserialize(t[0]), t[1]]))
         onProfileAdded(Object.keys(profiles));
     }
-    load();
+    load('default');
+    load(profile);
 
     function save() {
         var out = [];
@@ -200,7 +201,7 @@ Triggers = function(send, ui, onProfileAdded) {
             var saved = read();
             delete saved[select.value];
             profile = "default";
-            load(); // in case we're deleting the active profile
+            load(profile); // in case we're deleting the active profile
 
             // save() merges
             var profiles = read();
@@ -251,7 +252,7 @@ Triggers = function(send, ui, onProfileAdded) {
             }
             // previous profile got saved when last edited
             profile = select.value;
-            load();
+            load(profile);
             exports.draw();
         }
         drawMe.push([["New", ()=>trgEdit()], [select]]);
