@@ -46,7 +46,7 @@ Socket = function(onMudOutput, blit, gmcp) {
     }
 
     exports.send = send;
-    exports.gmcpSend = function(cmd) { send(gmcp.gmcpify(cmd)) };
+    exports.gmcpSend = function(cmd) { send(new Uint8Array(gmcp.gmcpify(cmd))); send("\n"); };
 
     return exports;
 };
