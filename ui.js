@@ -89,15 +89,6 @@ var Ui = function(options, send, gmcp, macros) {
         stuffListScroll.scrollTop = stuffListScroll.scrollHeight;
     }
 
-    gear.onchange = function(e) {
-        if (gear.checked) {
-            stuffList.innerHTML = "";
-            stuffListScroll.style.display = 'none';
-        } else {
-            drawTellHistory();
-        }
-    }
-
     exports.blit = function() {
         if (pause.checked)
             return;
@@ -231,6 +222,8 @@ var Ui = function(options, send, gmcp, macros) {
             drawTellHistory();
         }
     }
+
+    gear.onchange = exports.clearStuff;
 
     inputf.select();
     return exports;
