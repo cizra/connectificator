@@ -62,7 +62,9 @@ var Ui = function(options, send, gmcp, macros) {
     function toCommLog(obj) {
         var msg = ansi_up.ansi_to_html(obj.msg);
         commLog.push([obj.chan, msg]);
-        if (!gear.checked && (!(obj.chan in commLogTypesEnabled) || commLogTypesEnabled[obj.chan])) {
+        if (!(obj.chan in commLogTypesEnabled))
+            commLogTypesEnabled[obj.chan] = true;
+        if (!gear.checked && commLogTypesEnabled[obj.chan]) {
             var out = [];
             out.push([[msg]]);
             exports.toMenu(out, true, true);
