@@ -183,6 +183,8 @@ var Ui = function(options, send, gmcp, macros) {
 
     exports.dismissPopup = function() {
         document.getElementById('popup').style.display = 'none'
+        gear.checked = false;
+        gear.onchange();
     }
 
     // Takes an array of rows, where a row consists of items: [text, (optional callback)]
