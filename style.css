@@ -60,7 +60,7 @@ ul#menuitems > li {
 }
 
 #menu ul li a, #menu ul li input {
-    display:block;
+    display:inline;
     padding:12px;
     color:#404040;
     background: #f0f0f0;

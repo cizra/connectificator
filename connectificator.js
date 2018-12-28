@@ -17,6 +17,7 @@ function changelog() {
         window.localStorage.setItem('triggers', JSON.stringify({"default": trg}));
     }
     var changes = [
+        "Triggers can now be saved mudside. The save is encrypted in browser.",
         "Added a pause button",
         "Trigger profiles can how be autoloaded through hash: bookmark https://sneezymud.org#mage for `mage` profile",
         "Added sending commands to other characters: `#cleric h` executes `h` in all profiles named `cleric`",
@@ -101,10 +102,8 @@ function handleCmd(text, send, profiles) {
 var triggers = null;
 var gmcp = null;
 var pathificator = null;
-var simplecrypto = null;
 
 function start() {
-    simplecrypto = SimpleCrypto();
     var options = loadOptions();
     var profiles = [];
     function send(text) {
@@ -137,11 +136,11 @@ function start() {
       profiles.length = 0;
       newProfiles.forEach((p) => profiles.push(p));
     }
-    var triggers = Triggers(send, ui, onProfileAdded);
     function onMudOutput(str) {
         ui.output(str, triggers.run)
     }
     var socket = Socket(onMudOutput, ui.blit, gmcp);
+    var triggers = Triggers(send, ui, onProfileAdded, gmcp.handle, socket.gmcpSend);
     pathificator = Pathificator(send, gmcp, ui);
     directionPad = DirectionPad(gmcp, send, macros, killificator);
     addGmcpHandlers();

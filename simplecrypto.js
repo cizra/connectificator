@@ -14,12 +14,19 @@ var SimpleCrypto = function() {
     return encoder.encode(str);
   }
 
-  function serialize(ab) {
-    return JSON.stringify(Array.from(new Uint8Array(ab)));
+  function serialize(ciphertext, iv) {
+    return JSON.stringify({
+      "ciphertext": Array.from(new Uint8Array(ciphertext)),
+      "iv": Array.from(new Uint8Array(iv))
+    });
   }
 
-  function deserialize(ab_str) {
-    return new Uint8Array(JSON.parse(ab_str));
+  // the GMCP code already parses the JSON
+  function deserialize(arrayful) {
+    return {
+      "ciphertext": new Uint8Array(arrayful.ciphertext),
+      "iv": new Uint8Array(arrayful.iv),
+    };
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/deriveKey
@@ -86,22 +93,24 @@ var SimpleCrypto = function() {
     let iv = window.crypto.getRandomValues(new Uint8Array(12));
     _encrypt(str2ab(plaintext), salt, iv)
       .then(function(ciphertext) {
-        console.log("Ciphertext: " + serialize(ciphertext));
-        return then(serialize(ciphertext), serialize(iv));
+        return then(serialize(ciphertext, iv));
       })
       .catch(function(err) {
         console.error(err);
+        alert(err);
       });
   };
 
-  exports.decrypt = function(ciphertext, iv, then) {
-    _decrypt(deserialize(ciphertext), salt, deserialize(iv))
+  exports.decrypt = function(encrypted, then) {
+    let deser = deserialize(encrypted);
+    _decrypt(deser.ciphertext, salt, deser.iv)
       .then(function(plaintext) {
-        console.log("Plaintext: " + ab2str(plaintext));
         then(ab2str(plaintext));
       })
       .catch(function(err) {
+        key = null;
         console.error(err);
+        alert("Failed to decrypt.\nIs your password correct?");
       });
   };
 
