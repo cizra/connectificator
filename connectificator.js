@@ -101,8 +101,10 @@ function handleCmd(text, send, profiles) {
 var triggers = null;
 var gmcp = null;
 var pathificator = null;
+var simplecrypto = null;
 
 function start() {
+    simplecrypto = SimpleCrypto();
     var options = loadOptions();
     var profiles = [];
     function send(text) {
