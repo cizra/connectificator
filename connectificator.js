@@ -17,6 +17,7 @@ function changelog() {
         window.localStorage.setItem('triggers', JSON.stringify({"default": trg}));
     }
     var changes = [
+        "Added stat bars",
         "Added time to comm log",
         "Triggers can now be saved mudside. The save is encrypted in browser.",
         "Added a pause button",
@@ -131,6 +132,7 @@ function start() {
     }
     gmcp = Gmcp();
     var killificator = Killificator(send, gmcp);
+    let statbars = StatBars(gmcp);
     var macros = Macros(send, killificator);
     ui = Ui(options, send, gmcp, macros);
     function onProfileAdded(newProfiles) {

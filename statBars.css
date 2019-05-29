@@ -1,0 +1,64 @@
+div.statBars {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  opacity: 0.5;
+}
+
+@media only screen and (max-width: 600px) {
+  div.statBars.horizontal {
+    width: 80vw;
+  }
+}
+
+div.statBars.vertical {
+  height: 20em;
+  bottom: 3em;
+}
+
+div.statBars.horizontal {
+  width: 20em;
+}
+
+div.statBars.vertical div.statBar {
+  text-align: center;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+div.statBars.horizontal div.statBar {
+  width: 100%;
+  height: 1em;
+}
+
+div.statBar#hpBar {
+  background-color: red;
+}
+
+div.statBar#manaBar {
+  background-color: purple;
+}
+
+div.statBar#moveBar {
+  background-color: gray;
+}
+
+div.statBar#pietyBar {
+  background-color: gold;
+}
+
+div.statBar#lifeforceBar {
+  background-color: green;
+}
+
+div.statBar#tnlBar {
+  background-color: silver;
+}
+
+div.statBar#enemyBar {
+  background-color: brown;
+}
+
+div.statBar#tankHpBar {
+  background-color: blue;
+}

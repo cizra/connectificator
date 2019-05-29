@@ -2,6 +2,7 @@
         <title>Cizrian Connectificator</title>
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="layout.css" />
+        <link rel="stylesheet" href="statBars.css" />
         <script src="gmcp.js"></script>
         <script src="ansi_up.js"></script>
         <script src="macros.js"></script>
@@ -14,6 +15,7 @@
         <script src="killificator.js"></script>
         <script src="broadcast.js"></script>
         <script src="simplecrypto.js"></script>
+        <script src="statBars.js"></script>
     </head>
     <body onload="start()">
         <div id='client'>
@@ -34,20 +36,31 @@
             <div id='output'>Connecting to SneezyMUD...</div>
             <div id='popup'></div>
             <div id='directionPad'>
-                    <div id='nw'>⇖</div>
-                    <div id='n'>⇑</div>
-                    <div id='ne'>⇗</div>
-                    <div id='u'>↟</div>
-                    <div id='w'>⇐</div>
-                    <div id='center'></div>
-                    <div id='e'>⇒</div>
-                    <div id='mobs'></div>
-                    <div id='sw'>⇙</div>
-                    <div id='s'>⇓</div>
-                    <div id='se'>⇘</div>
-                    <div id='d'>↡</div>
-                </div>
+                <div id='nw'>⇖</div>
+                <div id='n'>⇑</div>
+                <div id='ne'>⇗</div>
+                <div id='u'>↟</div>
+                <div id='w'>⇐</div>
+                <div id='center'></div>
+                <div id='e'>⇒</div>
+                <div id='mobs'></div>
+                <div id='sw'>⇙</div>
+                <div id='s'>⇓</div>
+                <div id='se'>⇘</div>
+                <div id='d'>↡</div>
             </div>
-            <input type='text' id='inputfield' />
+            <div class='statBars vertical'>
+                <div id='hpBar' class='statBar'>Hp</div>
+                <div id='manaBar' class='statBar'>Mn</div>
+                <div id='moveBar' class='statBar'>Mv</div>
+                <div id='pietyBar' class='statBar'>Pt</div>
+                <div id='lifeforceBar' class='statBar'>Lf</div>
+                <!-- ones belows are not implemented -->
+                <div id='tnlBar' class='statBar'>Tn</div>
+                <div id='enemyBar' class='statBar'>En</div>
+                <div id='tankHpBar' class='statBar'>Th</div>
+            </div>
+        </div>
+        <input type='text' id='inputfield' />
         </div>
 </html>
