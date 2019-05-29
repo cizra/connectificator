@@ -21,8 +21,8 @@
         <div id='client'>
             <div id='menu'>
                 <label id="gear" for="gearCheckbox">⚙️</label>
-                <input id="gearCheckbox" type="checkbox" />
-                <input id="pauseCheckbox" type="checkbox" />
+                <input id="gearCheckbox" type="checkbox" class="modalTrigger"/>
+                <input id="pauseCheckbox" type="checkbox" class="modalTrigger"/>
                 <label id="pause" for="pauseCheckbox">⏸</label>
                 <ul id="menuitems">
                     <li><input id='pInput' type='text' value='Pathificator'/></li>
@@ -30,11 +30,23 @@
                     <li>Clear command is <input id='clearCommand' type='button' value='Unknown'/></li>
                     <li>Comm log <input id='commLogOptions' type='button' value='Types'/></li>
                     <li><input id='saveTriggers' type='button' value='Save'/><input id='loadTriggers' type='button' value='Load'/>triggers</li>
+                    <li><input id='exportTriggers' type='button' value='Export'/><input id='exportTriggers' type='button' value='Import'/>settings</li>
                 </ul>
                 <div id="stuffListBox"><ul id="stuffList"></ul></div>
             </div>
             <div id='output'>Connecting to SneezyMUD...</div>
             <div id='popup'></div>
+
+            <div class="popup"> <!-- TODO: consolidate or rename to avoid confusion -->
+              <input id="popupClose" class="modalTrigger" type="checkbox" />
+              <label for="popupClose" class="popupBackground"></label>
+                <div class="popupContent">
+                  <label for="popupClose" id="popupCloseX">&#10006;</label>
+                  <p>Hello World</p>
+                </div>
+              </div>
+            </div>
+
             <div id='directionPad'>
                 <div id='nw'>⇖</div>
                 <div id='n'>⇑</div>

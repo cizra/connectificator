@@ -51,10 +51,6 @@ ul#menuitems > li {
     position: relative;
 }
 
-#menu input {
-    display: none;
-}
-
 #menu label {
     float: right;
 }
