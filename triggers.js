@@ -54,8 +54,10 @@ Triggers = function(send, ui, onProfileAdded, gmcpHandle, gmcpSend) {
         var out = (prof === undefined || prof == 'default') ? defaultTriggers : triggers;
         out.length = 0;
         var profiles = read(prof);
-        profiles[prof].forEach(t => out.push([deserialize(t[0]), t[1]]))
-        onProfileAdded(Object.keys(profiles));
+        if (profiles[prof].forEach) { // corner case
+          profiles[prof].forEach(t => out.push([deserialize(t[0]), t[1]]))
+          onProfileAdded(Object.keys(profiles));
+        }
     }
     load('default');
     load(profile);
