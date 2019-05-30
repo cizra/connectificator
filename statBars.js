@@ -1,5 +1,6 @@
 var StatBars = function(gmcp) {
     gmcp.handle("char.vitals", onVitals);
+    document.getElementById('statBars').style.display = 'block';
 
     let bars = {};
     bars.hp = document.getElementById('hpBar');

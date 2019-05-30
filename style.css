@@ -277,6 +277,7 @@ div.statBars {
   bottom: 1em;
   right: 1em;
   opacity: 0.5;
+  display: none; /* enabled when the JS loads */
 }
 
 @media only screen and (max-width: 600px) {
