@@ -81,6 +81,17 @@ function loadOptions() {
     return options;
 }
 
+function loadMoreJs() {
+  let extraJs = [
+    "statBars.js",
+  ];
+  for (i in extraJs) {
+    let download = document.createElement("script");
+    download.src = extraJs[i];
+    document.body.appendChild(download);
+  }
+}
+
 function handleCmd(text, send, profiles) {
     console.assert(text[0] == '#');
     var cmd = text.substr(1, text.indexOf(' ') - 1);
@@ -106,6 +117,7 @@ var gmcp = null;
 var pathificator = null;
 
 function start() {
+    loadMoreJs();
     var options = loadOptions();
     var profiles = [];
     function send(text) {
@@ -130,9 +142,10 @@ function start() {
         });
         ui.blit();
     }
+
+    // start modlules
     gmcp = Gmcp();
     var killificator = Killificator(send, gmcp);
-    let statbars = StatBars(gmcp);
     var macros = Macros(send, killificator);
     ui = Ui(options, send, gmcp, macros);
     function onProfileAdded(newProfiles) {

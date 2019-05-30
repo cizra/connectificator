@@ -50,3 +50,4 @@ var StatBars = function(gmcp) {
         */
     }
 }
+let statbars = StatBars(gmcp);
