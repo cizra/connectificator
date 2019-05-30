@@ -5,7 +5,7 @@ var StatBars = function(gmcp) {
   let bars = {};
   bars.hp = document.getElementById('hpBar');
   bars.mana = document.getElementById('manaBar');
-  bars.move = document.getElementById('moveBar');
+  bars.moves = document.getElementById('movesBar');
   bars.piety = document.getElementById('pietyBar');
   bars.lifeforce = document.getElementById('lifeforceBar');
   bars.tnl = document.getElementById('tnlBar');
@@ -13,35 +13,34 @@ var StatBars = function(gmcp) {
   bars.tankHp = document.getElementById('tankHpBar');
 
   let prev = {};
-  prev.hp = 0;
-  prev.mana = 0;
-  prev.move = 0;
-  prev.piety = 0;
-  prev.lifeforce = 0;
-  prev.tnl = 0;
-  prev.enemy = 0;
-  prev.tankHp = 0;
+  prev.hp = null;
+  prev.mana = null;
+  prev.moves = null;
+  prev.piety = null;
+  prev.lifeforce = null;
+  prev.tnl = null;
+  prev.enemy = null;
+  prev.tankHp = null;
+
+  let fixedMax = {};
+  fixedMax.piety = 100.0;
+  fixedMax.lifeforce = 5000;
 
   function onVitals(val) {
-    if (val.hp != prev.hp) {
-      console.log(`Hp: ${val.hp} / ${gmcp.gmcp().char.maxstats.maxhp}`);
-      bars.hp.style.height = val.hp * 100 / gmcp.gmcp().char.maxstats.maxhp + "%";
-      prev.hp = val.hp;
-    }
-    if (val.mana != prev.mana) {
-      console.log(`Mana: ${val.mana} / ${gmcp.gmcp().char.maxstats.maxmana}`);
-      bars.mana.style.height = val.mana * 100 / gmcp.gmcp().char.maxstats.maxmana + "%";
-      prev.mana = val.mana;
-    }
-    if (val.moves != prev.move) {
-      console.log(`Moves: ${val.moves} / ${gmcp.gmcp().char.maxstats.maxmoves}`);
-      bars.move.style.height = val.moves * 100 / gmcp.gmcp().char.maxstats.maxmoves + "%";
-      prev.move = val.moves;
-    }
-    if (Math.abs(val.piety - prev.piety) > 0.1) {
-      console.log(`Pt: ${val.piety}`);
-      bars.piety.style.height = val.piety + "%";
-      prev.piety = val.piety;
+    let barnames = ["hp", "mana", "moves", "piety", "tnl", "lifeforce"];
+    for (i in barnames) {
+      let bar = barnames[i];
+
+      if (val[bar] != prev[bar]) {
+        if (prev[bar] === null)
+          bars[bar].style.display = 'inline-block';
+
+        let max = fixedMax[bar] || gmcp.gmcp().char.maxstats["max" + bar];
+
+        console.log(`${bar}: ${val[bar]} / ${max}`);
+        bars[bar].style.height = val[bar] * 100 / max + "%";
+        prev[bar] = val[bar];
+      }
     }
     /*
         if (val.tnl != prev.tnl) {

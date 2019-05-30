@@ -278,6 +278,7 @@ div.statBars {
   right: 1em;
   opacity: 0.5;
   display: none; /* enabled when the JS loads */
+  float: bottom;
 }
 
 @media only screen and (max-width: 600px) {
@@ -297,13 +298,16 @@ div.statBars.horizontal {
 
 div.statBars.vertical div.statBar {
   text-align: center;
-  display: inline-block;
   vertical-align: bottom;
 }
 
 div.statBars.horizontal div.statBar {
   width: 100%;
   height: 1em;
+}
+
+div.statBar {
+  display: none; /* not all classes need all bars, let the server decide */
 }
 
 div.statBar#hpBar {
@@ -314,7 +318,7 @@ div.statBar#manaBar {
   background-color: purple;
 }
 
-div.statBar#moveBar {
+div.statBar#movesBar {
   background-color: gray;
 }
 
