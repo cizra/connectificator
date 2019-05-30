@@ -169,10 +169,6 @@ var Ui = function(options, send, gmcp, macros) {
         inputf.select();
     }
 
-    exports.focusOnInput = function() {
-        inputf.focus();
-    }
-
     exports.popup = function(title, elems) {
         var h1 = document.createElement('h1');
         h1.appendChild(document.createTextNode(title));
@@ -230,5 +226,15 @@ var Ui = function(options, send, gmcp, macros) {
     gear.onchange = exports.clearStuff;
 
     inputf.select();
+    window.onkeypress = function(e) {
+        if (macros.run(e.code))
+            return;
+        if (document.activeElement.tagName != "INPUT") {
+            e.preventDefault(); // Chrome injects the letter into inputfield, FF doesn't.
+            inputf.value += e.key;
+            inputf.focus();
+        }
+        return;
+    };
     return exports;
 };

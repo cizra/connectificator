@@ -163,13 +163,6 @@ function start() {
     directionPad = DirectionPad(gmcp, send, macros, killificator);
     addGmcpHandlers();
     document.getElementById('triggersBtn').onclick = function() { triggers.draw() }
-    window.onkeypress = function(e) {
-        if (macros.run(e.code))
-            return;
-        if (document.activeElement.tagName != "INPUT")
-            ui.focusOnInput();
-        return true;
-    };
 
     window.onstorage = (ev) => receive_broadcast(ev, triggers.getProfile(), send);
 
