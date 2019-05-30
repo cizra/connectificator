@@ -1,3 +1,120 @@
+/* --- layout --- */
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+#client {
+    /* height: calc(100vh - 35px); */
+    height: 100%;
+    max-height: 100%;
+    width: 100%;
+}
+
+#client #output {
+    height: calc(100% - 20px /* padding */ - (1.5em + 18px) /* inputfield */);
+    max-height: calc(100% - 20px /* padding */ - (1.5em + 18px) /* inputfield */);
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#menu {
+    float: right;
+    position: fixed;
+    top: 3px;
+    right: 21px; /* to accommodate the scrollbar. Anyone know a better way to deal with this? */
+}
+
+#menu #stuffList {
+}
+
+#inputfield {
+    position: fixed;
+    width: calc(100vw - 18px); /* padding 3 + border 1 + margin 5 */
+    height: 1.5em;
+    margin: 5px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+}
+
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+#directionPad {
+    position: fixed;
+    top: 50%;
+    right: 21px;
+    transform: translate(0%, -50%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/* modal popup with clickaway overlay */
+
+input.modalTrigger {
+  display: none;
+}
+#popupClose {
+  position: fixed;
+  top: 1em;
+  left: 1em;
+}
+
+#popupCloseX {
+  position: absolute;
+  right: -0.5em;
+  top: -0.5em;
+  font-size: 200%;
+}
+
+label.popupBackground {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  background-color: lightgray;
+  transition: all 0.3s ease;
+  z-index: -100;
+  display: none;
+}
+
+#popupClose:checked ~ div.popupContent {
+  display: block;
+  z-index: 100;
+}
+
+#popupClose:checked ~ label.popupBackground {
+  display: block;
+  z-index: 90;
+}
+
+div.popupContent {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #eeeeee;
+  color: #050505;
+  padding: 1em;
+}
+
+div.popupContent div {
+  display: none;
+}
+
+
 table {border-collapse: collapse;}
 
 body, #menu ul li {
@@ -152,4 +269,70 @@ ul#menuitems > li {
 
 #directionPad div.active {
     color: #dddddd;
+}
+
+/* --- status bars --- */
+div.statBars {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  opacity: 0.5;
+}
+
+@media only screen and (max-width: 600px) {
+  div.statBars.horizontal {
+    width: 80vw;
+  }
+}
+
+div.statBars.vertical {
+  height: 20em;
+  bottom: 3em;
+}
+
+div.statBars.horizontal {
+  width: 20em;
+}
+
+div.statBars.vertical div.statBar {
+  text-align: center;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+div.statBars.horizontal div.statBar {
+  width: 100%;
+  height: 1em;
+}
+
+div.statBar#hpBar {
+  background-color: red;
+}
+
+div.statBar#manaBar {
+  background-color: purple;
+}
+
+div.statBar#moveBar {
+  background-color: gray;
+}
+
+div.statBar#pietyBar {
+  background-color: gold;
+}
+
+div.statBar#lifeforceBar {
+  background-color: green;
+}
+
+div.statBar#tnlBar {
+  background-color: silver;
+}
+
+div.statBar#enemyBar {
+  background-color: brown;
+}
+
+div.statBar#tankHpBar {
+  background-color: blue;
 }
