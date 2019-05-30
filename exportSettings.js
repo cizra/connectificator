@@ -10,10 +10,21 @@ let ExportSettingsHandler = function() {
   let exportPopupValue = document.getElementById('exportSettings');
   let importPopupValue = document.getElementById('importSettings');
 
+  function dismiss(element) {
+    popupToggle.defaultOnChange = popupToggle.onchange;
+
+    popupToggle.onchange = function() {
+      element.style.display = 'none';
+      // popupToggle.defaultOnChange(); hard to ensure no recursion or something
+      popupToggle.onchange = popupToggle.defaultOnChange;
+    };
+  };
+
   exportMenuBtn.onclick = function() {
     // todo: dismiss the export div on close
     popupToggle.checked = true;
     exportPopupContent.style.display = 'block';
+    dismiss(exportPopupContent);
 
     var data = {};
     data["triggers"] = window.localStorage.getItem('triggers') || "{}";
@@ -31,13 +42,16 @@ let ExportSettingsHandler = function() {
   importMenuBtn.onclick = function() {
     popupToggle.checked = true;
     importPopupContent.style.display = 'block';
+    importPopupValue.focus();
+    dismiss(importPopupContent);
 
     importPopupBtn.onclick = function() {
-      var data = LZString.decompressFromBase64(importPopupValue.value);
+      var data = JSON.parse(LZString.decompressFromBase64(importPopupValue.value));
       window.localStorage.setItem('triggers', data.triggers || '{}');
       window.localStorage.setItem('options', data.options || '{}');
       window.localStorage.setItem('version', data.version || 0);
       importPopupBtn.innerText = "Loaded!";
+      location.reload(); // force reread everything. Easier than cleaning up. Running start() might initialize something twice.
     };
   };
 };
