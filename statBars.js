@@ -1,5 +1,9 @@
-var StatBars = function(gmcp) {
+var StatBars = function(gmcp, options) {
+  if (!options.statBarsOn)
+    return;
+
   gmcp.handle("char.vitals", onVitals);
+  console.log("setting statbars to block");
   document.getElementById('statBars').style.display = 'block';
 
   let bars = {};
@@ -54,4 +58,4 @@ var StatBars = function(gmcp) {
         */
   }
 }
-let statbars = StatBars(gmcp);
+let statbars = StatBars(gmcp, options);

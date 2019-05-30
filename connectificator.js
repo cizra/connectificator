@@ -63,16 +63,21 @@ function loadOptions() {
     window.localStorage.setItem('options', JSON.stringify(options));
   }
 
-  var clearCommandBtn = document.getElementById('clearCommand');
-  clearCommandBtn.value = 'clearCommand' in options ? (options['clearCommand'] ? 'On' : 'Off') : 'Off';
-  clearCommandBtn.onclick = function() {
-    if ('clearCommand' in options)
-      options['clearCommand'] = !options['clearCommand'];
-    else
-      options['clearCommand'] = true; // the default being Off
-    options.save();
-    clearCommandBtn.value = options['clearCommand'] ? 'On' : 'Off';
-  }
+  let toggles = {"clearCommand": false, "statBarsOn": true};
+  function loadToggle(toggle, defaultSetting) {
+    var toggleButton = document.getElementById(toggle);
+    toggleButton.value = toggle in options ? (options[toggle] ? 'On' : 'Off') : defaultSetting ? 'On' : 'Off';
+    toggleButton.onclick = function() {
+      if (toggle in options)
+        options[toggle] = !options[toggle];
+      else
+        options[toggle] = defaultSetting;
+      options.save();
+      location.reload(); // force reread everything. Easier than cleaning up. Running start() might initialize something twice.
+    }
+  };
+  for (key in toggles)
+    loadToggle(key, toggles[key]);
 
   var commLogOptions = document.getElementById('commLogOptions');
   commLogOptions.onclick = function() {
@@ -117,10 +122,11 @@ function handleCmd(text, send, profiles) {
 var triggers = null;
 var gmcp = null;
 var pathificator = null;
+let options = null;
 
 function start() {
   loadMoreJs();
-  var options = loadOptions();
+  options = loadOptions();
   var profiles = [];
   function send(text) {
     if (text[0] == ';') {
