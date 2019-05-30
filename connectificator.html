@@ -30,7 +30,7 @@
                     <li>Clear command is <input id='clearCommand' type='button' value='Unknown'/></li>
                     <li>Comm log <input id='commLogOptions' type='button' value='Types'/></li>
                     <li><input id='saveTriggers' type='button' value='Save'/><input id='loadTriggers' type='button' value='Load'/>triggers</li>
-                    <li><input id='exportTriggers' type='button' value='Export'/><input id='exportTriggers' type='button' value='Import'/>settings</li>
+                    <li><input id='exportTriggersBtn' type='button' value='Export'/><input id='importTriggersBtn' type='button' value='Import'/>settings</li>
                 </ul>
                 <div id="stuffListBox"><ul id="stuffList"></ul></div>
             </div>
@@ -42,7 +42,14 @@
               <label for="popupClose" class="popupBackground"></label>
                 <div class="popupContent">
                   <label for="popupClose" id="popupCloseX">&#10006;</label>
-                  <p>Hello World</p>
+                  <div id="exportSettings-popup">
+                    <input id="exportSettings" type="text" readonly />
+                    <button id="exportSettings-copy">Copy</button>
+                  </div>
+                  <div id="importSettings-popup">
+                    <input id="importSettings" type="text" />
+                    <button id="importSettings-load">Load</button>
+                  </div>
                 </div>
               </div>
             </div>

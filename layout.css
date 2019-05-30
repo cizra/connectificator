@@ -60,7 +60,7 @@ body {
 /* modal popup with clickaway overlay */
 
 input.modalTrigger {
-  /* display: none; */
+  display: none;
 }
 #popupClose {
   position: fixed;
@@ -107,4 +107,8 @@ div.popupContent {
   background-color: #eeeeee;
   color: #050505;
   padding: 1em;
+}
+
+div.popupContent div {
+  display: none;
 }

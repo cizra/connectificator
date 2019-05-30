@@ -83,7 +83,9 @@ function loadOptions() {
 
 function loadMoreJs() {
   let extraJs = [
+    "exportSettings.js",
     "statBars.js",
+    "lz-string.min.js"
   ];
   for (i in extraJs) {
     let download = document.createElement("script");
