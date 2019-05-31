@@ -169,6 +169,10 @@ var Ui = function(options, send, gmcp, macros) {
         inputf.select();
     }
 
+    exports.focusOnInput = function() {
+        inputf.focus();
+    }
+
     exports.popup = function(title, elems) {
         var h1 = document.createElement('h1');
         h1.appendChild(document.createTextNode(title));
