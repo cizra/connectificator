@@ -6,6 +6,7 @@ SHELL := bash
 	MAKEFLAGS += --no-builtin-rules
 
 JSFILES := $(filter-out concatenated.js,$(wildcard *.js))
+CP := cp connectificator.html style.css concatenated.js
 
 all: beta
 
@@ -14,11 +15,11 @@ clean:
 
 .PHONY: clean
 
-concatenated.js: $(JSFILES) connectificator.html style.css
+concatenated.js: $(JSFILES)
 	cat $(JSFILES) > concatenated.js
 
-beta: concatenated.js
-	cp connectificator.html style.css concatenated.js /var/www/html/elmo/
+beta: concatenated.js connectificator.html style.css
+	$(CP) /var/www/html/elmo/
 
-release: concatenated.js
-	sudo cp connectificator.html style.css concatenated.js /var/www/html/
+release: concatenated.js connectificator.html style.css
+	sudo $(CP) /var/www/html/
