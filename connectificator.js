@@ -112,7 +112,7 @@ function handleCmd(text, send, profiles) {
     for (var i = parseInt(cmd); i --> 0;)
       send(arg);
   } else if (cmd == 'all' || profiles.indexOf(cmd) != -1) {
-    broadcast(cmd, arg);
+    broadcast(window.localStorage, cmd, arg);
     if (cmd == 'all')
       send(arg);
   } else {
