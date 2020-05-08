@@ -65,6 +65,7 @@ function loadOptions() {
 
   let toggles = {"clearCommand": false, "statBarsOn": true};
   function loadToggle(toggle, defaultSetting) {
+    options[toggle] = options[toggle] || defaultSetting;
     var toggleButton = document.getElementById(toggle);
     toggleButton.value = toggle in options ? (options[toggle] ? 'On' : 'Off') : defaultSetting ? 'On' : 'Off';
     toggleButton.onclick = function() {
