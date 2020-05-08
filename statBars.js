@@ -58,4 +58,3 @@ var StatBars = function(gmcp, options) {
         */
   }
 }
-let statbars = StatBars(gmcp, options);

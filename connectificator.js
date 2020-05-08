@@ -166,6 +166,7 @@ function start() {
   }
   var socket = Socket(onMudOutput, ui.blit, gmcp);
   var triggers = Triggers(send, ui, onProfileAdded, gmcp.handle, socket.gmcpSend);
+  let statbars = StatBars(gmcp, options);
   pathificator = Pathificator(send, gmcp, ui);
   directionPad = DirectionPad(gmcp, send, macros, killificator);
   addGmcpHandlers();
