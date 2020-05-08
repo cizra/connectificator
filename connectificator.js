@@ -88,6 +88,8 @@ function loadOptions() {
 }
 
 function loadMoreJs() {
+  // deprecated in favor of concatenating all JS
+  /*
   let extraJs = [
     "exportSettings.js",
     "statBars.js",
@@ -98,6 +100,7 @@ function loadMoreJs() {
     download.src = extraJs[i];
     document.body.appendChild(download);
   }
+  */
 }
 
 function handleCmd(text, send, profiles) {
