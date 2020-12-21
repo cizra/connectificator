@@ -87,19 +87,6 @@ function loadOptions() {
   return options;
 }
 
-function loadMoreJs() {
-  let extraJs = [
-    "exportSettings.js",
-    "statBars.js",
-    "lz-string.min.js"
-  ];
-  for (i in extraJs) {
-    let download = document.createElement("script");
-    download.src = extraJs[i];
-    document.body.appendChild(download);
-  }
-}
-
 function handleCmd(text, send, profiles) {
   console.assert(text[0] == '#');
   var cmd = text.substr(1, text.indexOf(' ') - 1);
@@ -126,7 +113,6 @@ var pathificator = null;
 let options = null;
 
 function start() {
-  loadMoreJs();
   options = loadOptions();
   var profiles = [];
   function send(text) {
