@@ -162,3 +162,5 @@ function start() {
 
   changelog();
 }
+
+window.onload = start;
